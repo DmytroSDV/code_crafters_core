@@ -39,7 +39,7 @@ class Phone:
     def is_valid_phone(self, phone):
         return bool(re.findall(r"^\+380[0-9]{9}$|^[0-9]{10}$|^3[0-9]{9}$", phone))
     
-class Birthday():
+class Birthday:
     def __init__(self, value):
 
         self._value = None
@@ -59,4 +59,7 @@ class Birthday():
             self._value = datetime.strptime(val, "%Y-%m-%d").date()
         else:
             raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
+
+
+
 
