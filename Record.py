@@ -1,7 +1,11 @@
+from RecordData import *
 class Record:
-    def __init__(self, name):
+    def __init__(self, name: str, phone: str, birthday=None, email=None, note=None):
         self.name = Name(name)
         self.phones = []
+        self.birthday= Birthday(birthday)
+        self.email=[]
+        self.note=Note(note)
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -19,3 +23,8 @@ class Record:
             if p.value == phone:
                 return p
         return None
+    def add_email(self, email):
+        self.email.append(Email(email))
+    def add_note(self, note):
+        self.note.append(Note(note))
+    
