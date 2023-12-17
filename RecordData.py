@@ -64,7 +64,6 @@ class Birthday:
         else:
             raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
 
-
 class Note:
     def __init__(self, title):
         self.title = title

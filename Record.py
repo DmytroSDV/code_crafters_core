@@ -2,6 +2,7 @@ from RecordData import *
 from datetime import datetime
 
 
+
 class Record:
     def __init__(self, name: str, phone: str, birthday = None, email = None, note = None):
         self.name = Name(name)
