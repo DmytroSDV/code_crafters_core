@@ -27,4 +27,5 @@ class Record:
         self.email.append(Email(email))
     def add_note(self, note):
         self.note.append(Note(note))
+        #
     
