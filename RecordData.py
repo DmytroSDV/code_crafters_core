@@ -1,6 +1,5 @@
 import re
 
-
 class Email:
     pattern = r"[a-zA-Z]{1}[\w\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}"
 
@@ -29,7 +28,13 @@ class Name:
             return True
         return False
 
+ class Phone:
+    def __init__(self, value):
+        if not self.is_valid_phone(value):
+            raise ValueError("Invalid phone number format")
+        else:
+            self.value = value
 
-
-
+    def is_valid_phone(self, phone):
+        return bool(re.findall(r"^\+380[0-9]{9}$|^[0-9]{10}$|^3[0-9]{9}$", phone))
 
