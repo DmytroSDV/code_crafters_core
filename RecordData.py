@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+
 class Email:
     pattern = r"[a-zA-Z]{1}[\w\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}"
 
@@ -10,24 +11,27 @@ class Email:
         else:
             raise ValueError("Incorrect email! Please provide correct email.")
 
-class Name:
 
-    def __init__(self,name):
+class Name:
+    def __init__(self, name):
         self.set_name(name)
 
     def get_name(self):
         return self.name
 
-    def set_name(self,name):
+    def set_name(self, name):
         if self.valid_name(name):
-            self.name=name
+            self.name = name
         else:
-            raise ValueError('Wrong Name. Name needs to contain not less than 3 symbols')
+            raise ValueError(
+                "Wrong Name. Name needs to contain not less than 3 symbols"
+            )
 
-    def valid_name(self,name):
-        if len(name)>=3 and name.isalpha():
+    def valid_name(self, name):
+        if len(name) >= 3 and name.isalpha():
             return True
         return False
+
 
 class Phone:
     def __init__(self, value):
@@ -38,10 +42,10 @@ class Phone:
 
     def is_valid_phone(self, phone):
         return bool(re.findall(r"^\+380[0-9]{9}$|^[0-9]{10}$|^3[0-9]{9}$", phone))
-    
-class Birthday():
-    def __init__(self, value):
 
+
+class Birthday:
+    def __init__(self, value):
         self._value = None
         self.value = value
 
@@ -60,3 +64,17 @@ class Birthday():
         else:
             raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
 
+
+class Note:
+    def __init__(self, title):
+        self.title = title
+        self.content = ""
+        self.tags = []
+
+    def add_tag(self, value):
+        result = map(lambda t: t.value, self.tags)
+        if not value in result:
+            self.tags.append(value)
+
+    def add_content(self, value):
+        self.content = value
