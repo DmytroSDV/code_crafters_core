@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 class Email:
     pattern = r"[a-zA-Z]{1}[\w\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}"
@@ -28,7 +29,7 @@ class Name:
             return True
         return False
 
- class Phone:
+class Phone:
     def __init__(self, value):
         if not self.is_valid_phone(value):
             raise ValueError("Invalid phone number format")
@@ -37,4 +38,25 @@ class Name:
 
     def is_valid_phone(self, phone):
         return bool(re.findall(r"^\+380[0-9]{9}$|^[0-9]{10}$|^3[0-9]{9}$", phone))
+    
+class Birthday():
+    def __init__(self, value):
+
+        self._value = None
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, val):
+        date_pattern = r"\d{4}-\d{2}-\d{2}"
+        if re.match(date_pattern, val):
+            date_split = val.split("-")
+            if int(date_split[1]) > 12:
+                raise ValueError("After year YYYY you must enter month (1-12)!")
+            self._value = datetime.strptime(val, "%Y-%m-%d").date()
+        else:
+            raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
 

@@ -24,22 +24,11 @@ class AddressBook(UserList):
 
         contacts={'id':self.id,'name': record.name,'phone':record.phones, 'birthday': record.birthday,'email': record.email,'note': record.note }
         self.data.append(contacts)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+    def birthdays(self, days):
+        result = []
+        for contact in self.data:
+            compare = contact.days_to_birthday()
+            if str(compare) == days:
+                result.append(key)
+        print(result)
