@@ -8,14 +8,12 @@ class Run:
         action = action.strip().lower()
         
         if action == 'add':
-            name = input("Name: ").strip()
-            phones = Phone().phone
-            birth = Birthday().birthday
-            email = Email().value.strip()
-            note = input("Note: ").strip()
-            record = Record(name, phones, birth, email, status, note)
-            return self.book.add_contacts(record)
-        
+            try:
+                self.book.add_contacts()
+            except ValueError as e:
+                print(f"Error: {e}")
+                print("Try again")
+
     def show_help(self):
         commands = ['Add', 'Search', 'Edit', 'Load', 'Remove', 'Save', 'Congratulate', 'View', 'Exit']   
         print("Available commands:")
@@ -24,7 +22,7 @@ class Run:
 
     def run(self):
         print('Hello')
-        self.book.read_from_file("data.bin")
+        self.book.read_from_file()
         while True:
             action = input('Enter your command\n').strip().lower()
 
@@ -36,8 +34,11 @@ class Run:
                 self.handle(action)
 
             if action in ['add', 'remove', 'edit']:
-                self.book.save_to_file("auto_save")
-                
+                self.book.save_to_file()
+
+if __name__ == "__main__":
+    run = Run()
+    run.run()
 
 
 if __name__ == "__main__":
