@@ -77,3 +77,4 @@ class Note:
 
     def add_content(self, value):
         self.content = value
+
