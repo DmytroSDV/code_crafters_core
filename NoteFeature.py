@@ -112,12 +112,13 @@ class NoteBook(UserDict):
         note_rec.add_tag(tag_data)
 
         self.data[note_rec.name.value] = note_rec
+        print("New note successfully added!")
 
     def find_author(self):
         author_name = input("Please enter note name: ")
         for key in self.data:
             if key == author_name:
-                return self.data[author_name]
+                print(self.data[author_name])
 
     def find_tag(self, name):
         for key in self.data:

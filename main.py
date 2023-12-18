@@ -280,6 +280,6 @@ if __name__ == "__main__":
     else:
         with open(note_database, "wb") as fh:
             pass
-        note = AddressBook()
+        note = NoteBook()
 
     main()
