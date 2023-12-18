@@ -3,6 +3,7 @@ from RecordData import *
 from collections import UserList
 import pickle
 from datetime import datetime
+import emoji
 
 
 class AddressBook(UserList):
@@ -46,11 +47,28 @@ class AddressBook(UserList):
                 result.append(contact)
         print(result)
 
-    def seach_contact(self):
-        name = input("Please enter name: ")
+    def search_contact(self):
+        name = input(emoji.emojize('🔍 Введите имя: '))
+        found_contacts = []
+
         for contact in self.data:
-            if contact["name"].name == name:
-                print(contact)
+            if contact['name'].name.lower() == name.lower():
+                found_contacts.append(contact)
+
+        if found_contacts:
+            for found_contact in found_contacts:
+                print(emoji.emojize(f"🎉 Найден контакт с именем '{name}':"))
+                print({
+                    emoji.emojize('🆔 ID:'): found_contact['id'],
+                    emoji.emojize('👤 Имя:'): str(found_contact['name']),
+                    emoji.emojize('📞 Телефон:'): [str(phone) for phone in found_contact['phone']],
+                    emoji.emojize('🎂 День рождения:'): str(found_contact['birthday']),
+                    emoji.emojize('📧 Email:'): str(found_contact['email']),
+                    emoji.emojize('📝 Примечание:'): str(found_contact['note'])
+                })
+                print(emoji.emojize("✨---------------------------------------✨"))
+        else:
+            print(emoji.emojize(f"😞 Контакт с именем '{name}' не найден."))
 
     def __str__(self):
         result = ""
@@ -92,12 +110,12 @@ class AddressBook(UserList):
                 print("Contact isn't found")
 
 
-def save_to_file(self, file_path: str, data):
-    with open(file_path, "wb") as file:
-        pickle.dump(data, file)
-        print(f"Контакты записаны в файл: {file_path}")
+    def save_to_file(self, file_path: str, data):
+        with open(file_path, "wb") as file:
+            pickle.dump(data, file)
+            print(f"Контакты записаны в файл: {file_path}")
 
 
-def read_from_file(self, file_path: str):
-    with open(file_path, "rb") as file:
-        return pickle.load(file)
+    def read_from_file(self, file_path: str):
+        with open(file_path, "rb") as file:
+            return pickle.load(file)

@@ -1,6 +1,9 @@
 from AddressBook import *
 from pathlib import Path
 from FileSorting import executing_command
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.application.current import get_app
 
 
 def available_commands():
@@ -60,10 +63,50 @@ def available_commands():
     )
 
 
+command_explain = WordCompleter(
+    [
+        "contact-add",
+        "contact-find",
+        "contact-show-all",
+        "contact-phone-add",
+        "contact-email-add",
+        "contact-edit-phone",
+        "contact-edit-email",
+        "contact-edit-birthday",
+        "contact-remove",
+        "display-birthdays",
+        "note-add",
+        "note-find",
+        "note-show-all",
+        "note-edit",
+        "note-remove",
+        "tag-add",
+        "tag-find-sort",
+        "file-sort",
+        "file-extension-add",
+        "file-extension-remove",
+        "quit",
+        "exit",
+        "q",
+    ]
+)
+
+
+def pre_run():
+    app = get_app()
+    b = app.current_buffer
+    if b.complete_state:
+        b.complete_next()
+    else:
+        b.start_completion(select_first=False)
+
+
 def main():
     while 1:
-        from_user = input(
-            "To see available list of commands enter 'cli'.\nCommand prompt: "
+        from_user = prompt(
+            "To see available list of commands enter 'cli'.\nCommand prompt: ",
+            completer=command_explain,
+            pre_run=pre_run,
         )
 
         match from_user.lower():
@@ -72,11 +115,20 @@ def main():
 
             case "contact-add":
                 # 'зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів'
-                pass
+                try:
+                    book.add_contacts()
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    print("Failed to add info. Please try again.")
+                else:
+                    print("Contact added successfully.")
+                
 
             case "contact-find":
                 # 'здійснює пошук контакту серед контактів книги'
-                pass
+                book.search_contact()
+                
+                
 
             case "contact-show-all":
                 # "показує всі існуючі контакти в книзі контактів"
@@ -171,11 +223,11 @@ def main():
 
 
 if __name__ == "__main__":
-    file_name = "database.json"
+    file_name = "database.bin"
     file_database = Path(file_name)
 
     if file_database.exists() and file_database.is_file():
-        with open(file_database, "r") as fh:
+        with open(file_database, "rb") as fh:
             check_content = fh.read()
 
         if not check_content:
@@ -184,7 +236,7 @@ if __name__ == "__main__":
             desirialization = AddressBook()
             book = desirialization.read_from_file(file_name)
     else:
-        with open(file_database, "w") as fh:
+        with open(file_database, "wb") as fh:
             pass
         book = AddressBook()
 
