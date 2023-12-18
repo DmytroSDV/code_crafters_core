@@ -102,13 +102,22 @@ class NoteRec:
 
 
 class NoteBook(UserDict):
-    def add_record(self, info):
-        self.data[info.name.value] = info
+    def add_new_note(self):
+        author_name = input("Please enter note name: ")
+        note_data = input("Please type your note: ")
+        tag_data = input("Please enter applicable tag: ")
 
-    def find_author(self, name):
+        note_rec = NoteRec(author_name)
+        note_rec.add_note(note_data)
+        note_rec.add_tag(tag_data)
+
+        self.data[note_rec.name.value] = note_rec
+
+    def find_author(self):
+        author_name = input("Please enter note name: ")
         for key in self.data:
-            if key == name:
-                return self.data[name]
+            if key == author_name:
+                return self.data[author_name]
 
     def find_tag(self, name):
         for key in self.data:
@@ -124,7 +133,7 @@ class NoteBook(UserDict):
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
-            print(f"Notes added: {file_path}")
+            print(f"Notes added to: {file_path}")
 
     def note_read_from_file(self, file_path: str):
         with open(file_path, "rb") as file:

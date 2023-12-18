@@ -14,10 +14,12 @@ def available_commands():
         "contact-find",
         "contact-show-all",
         "contact-phone-add",
+        "contact-phone-remove",
         "contact-email-add",
-        "contact-edit-phone",
-        "contact-edit-email",
-        "contact-edit-birthday",
+        "contact-email-remove",
+        "contact-phone-edit",
+        "contact-email-edit",
+        "contact-birthday-edit",
         "contact-remove",
         "display-birthdays",
         "note-add",
@@ -42,7 +44,9 @@ def available_commands():
         "здійснює пошук контакту серед контактів книги",
         "показує всі існуючі контакти в книзі контактів",
         "додати іще 1-ин phone до існуючого контакту",
+        "видалення існуючого phone",
         "додати іще 1-ин email до існуючого контакту",
+        "видалення існуючого email",
         "редагування phone існуючого контакту",
         "редагування email існуючого контакту",
         "редагування birthday існуючого контакту",
@@ -77,10 +81,12 @@ command_explain = WordCompleter(
         "contact-find",
         "contact-show-all",
         "contact-phone-add",
+        "contact-phone-remove",
         "contact-email-add",
-        "contact-edit-phone",
-        "contact-edit-email",
-        "contact-edit-birthday",
+        "contact-email-remove",
+        "contact-phone-edit",
+        "contact-email-edit",
+        "contact-birthday-edit",
         "contact-remove",
         "display-birthdays",
         "note-add",
@@ -146,19 +152,27 @@ def main():
                 # "додати іще 1-ин phone до існуючого контакту"
                 pass
 
+            case "contact-phone-remove":
+                # "видалення існуючого phone",
+                pass
+
             case "contact-email-add":
                 # "додати іще 1-ин email до існуючого контакту"
                 pass
 
-            case "contact-edit-phone":
+            case "contact-email-remove":
+                # "видалення існуючого email",
+                pass
+
+            case "contact-phone-edit":
                 # "редагування phone існуючого контакту"
                 pass
 
-            case "contact-edit-email":
+            case "contact-email-edit":
                 # 'редагування email існуючого контакту'
                 pass
 
-            case "contact-edit-birthday":
+            case "contact-birthday-edit":
                 # 'редагування birthday існуючого контакту'
                 pass
 
@@ -172,11 +186,11 @@ def main():
 
             case "note-add":
                 # "зберігає нотатку за іменем автора",
-                pass
+                note.add_new_note()
 
             case "note-find":
                 # "здійснює пошук нотатки серед існуючих нотатків"
-                pass
+                note.find_author()
 
             case "note-show-all":
                 # "показує всі існуючі нотатки"
@@ -247,8 +261,8 @@ if __name__ == "__main__":
         if not check_content:
             book = AddressBook()
         else:
-            desirialization = AddressBook()
-            book = desirialization.read_from_file(file_name)
+            deserialization = AddressBook()
+            book = deserialization.read_from_file(file_name)
     else:
         with open(file_database, "wb") as fh:
             pass
@@ -261,8 +275,8 @@ if __name__ == "__main__":
         if not check_content:
             note = NoteBook()
         else:
-            desirialization = NoteBook()
-            note = desirialization.note_read_from_file(note_name)
+            deserialization = NoteBook()
+            note = deserialization.note_read_from_file(note_name)
     else:
         with open(note_database, "wb") as fh:
             pass
