@@ -123,6 +123,7 @@ def main():
                 # 'зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів'
                 try:
                     book.add_contacts()
+                    
                 except ValueError as e:
                     print(f"Error: {e}")
                     print("Failed to add info. Please try again.")
@@ -136,7 +137,7 @@ def main():
             case "contact-show-all":
                 # "показує всі існуючі контакти в книзі контактів"
                 book.show_all_contacts()
-                
+
             case "contact-phone-add":
                 # "додати іще 1-ин phone до існуючого контакту"
                 pass
