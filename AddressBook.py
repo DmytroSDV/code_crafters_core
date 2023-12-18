@@ -69,6 +69,24 @@ class AddressBook(UserList):
                 print(emoji.emojize("✨---------------------------------------✨"))
         else:
             print(emoji.emojize(f"😞 Контакт с именем '{name}' не найден."))
+            
+    def show_all_contacts(self):
+        if not self.data:
+            print("Книга контактов пуста.")
+            return
+        else:
+            print("Все контакты в книге:")
+            for contact in self.data:
+                print("ID:", contact['id'])
+                print("Имя:", contact['name'])
+                if 'phone' in contact and isinstance(contact['phone'], list):
+                    phone_numbers = [str(phone) for phone in contact['phone']]
+                print("Телефон:", ', '.join(phone_numbers))
+                print("День рождения:", contact['birthday'])
+                print("Email:", contact['email'])
+                print("Примечание:", contact['note'] if contact['note'] else "Отсутствует")
+                print("✨---------------------------------------✨")
+    
 
     def __str__(self):
         result = ""
