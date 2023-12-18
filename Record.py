@@ -2,14 +2,12 @@ from RecordData import *
 from datetime import datetime
 
 
-
 class Record:
-    def __init__(self, name: str, phone=None, birthday = None, email = None, note = None):
+    def __init__(self, name: str, phone=None, birthday=None, email=None, note=None):
         self.name = Name(name)
         self.phones = []
         self.birthday = birthday
         self.email = []
-        self.note = Note(note)
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -44,12 +42,6 @@ class Record:
             if p.value == email:
                 return p
         return None
-
-    def add_email(self, email):
-        self.email.append(Email(email))
-
-    def add_note(self, note):
-        self.note.append(Note(note))
 
     def days_to_birthday(self):
         try:

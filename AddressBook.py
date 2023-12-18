@@ -89,7 +89,6 @@ class AddressBook(UserList):
                 print("Примечание:", contact['note'] if contact['note'] else "Отсутствует")
                 print("✨---------------------------------------✨")
     
-
     def __str__(self):
         result = ""
         for account in self.data:
@@ -124,7 +123,7 @@ class AddressBook(UserList):
     def del_contact(self):
         name = input("Please enter name: ")
         for contact in self.data:
-            if contact["name"] == name:
+            if str(contact["name"]) == name:
                 self.data.remove(contact)
             else:
                 print("Contact isn't found")
