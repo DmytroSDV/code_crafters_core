@@ -36,44 +36,6 @@ class FileSorter:
         else:
             raise ValueError("No such folder exists!")
 
-    def adding_new_exxtension(self, key_from_dict: str, extension: str):
-        if (
-            key_from_dict in FileSorter.extensions_dict.keys()
-            and not extension in FileSorter.extensions_dict[key_from_dict]
-        ):
-            FileSorter.extensions_dict[key_from_dict].append(extension)
-        else:
-            if not key_from_dict in FileSorter.extensions_dict.keys():
-                print(
-                    f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
-                )
-            if (
-                key_from_dict in FileSorter.extensions_dict.keys()
-                and extension in FileSorter.extensions_dict[key_from_dict]
-            ):
-                print(
-                    f"Sorry but extension '{extension}' does exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
-                )
-
-    def removing_new_extension(self, key_from_dict: str, extension: str):
-        if (
-            key_from_dict in FileSorter.extensions_dict.keys()
-            and extension in FileSorter.extensions_dict[key_from_dict]
-        ):
-            FileSorter.extensions_dict[key_from_dict].remove(extension)
-        else:
-            if not key_from_dict in FileSorter.extensions_dict.keys():
-                print(
-                    f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
-                )
-            if (
-                key_from_dict in FileSorter.extensions_dict.keys()
-                and not extension in FileSorter.extensions_dict[key_from_dict]
-            ):
-                print(
-                    f"Sorry but extension '{extension}' does not exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
-                )
-
     def is_dir_empty(self, path_argv: Path) -> bool:
         for element in path_argv.iterdir():
             return False
@@ -162,5 +124,111 @@ class FileSorter:
                             destination_dir = destination_dir / get_folder_name
                             destination_dir.mkdir(exist_ok=True)
                             shutil.unpack_archive(element, destination_dir)
-                            
+
         return trash_sorting_recursion(self.path_to_folder)
+
+
+def adding_extension(key_from_dict: str, extension: str):
+    if (
+        key_from_dict in FileSorter.extensions_dict.keys()
+        and not extension in FileSorter.extensions_dict[key_from_dict]
+    ):
+        FileSorter.extensions_dict[key_from_dict].append(extension)
+    else:
+        if not key_from_dict in FileSorter.extensions_dict.keys():
+            raise ValueError(
+                f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
+            )
+        if (
+            key_from_dict in FileSorter.extensions_dict.keys()
+            and extension in FileSorter.extensions_dict[key_from_dict]
+        ):
+            raise ValueError(
+                f"Sorry but extension '{extension}' does exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
+            )
+
+
+def removing_extension(key_from_dict: str, extension: str):
+    if (
+        key_from_dict in FileSorter.extensions_dict.keys()
+        and extension in FileSorter.extensions_dict[key_from_dict]
+    ):
+        FileSorter.extensions_dict[key_from_dict].remove(extension)
+    else:
+        if not key_from_dict in FileSorter.extensions_dict.keys():
+            print(
+                f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
+            )
+        if (
+            key_from_dict in FileSorter.extensions_dict.keys()
+            and not extension in FileSorter.extensions_dict[key_from_dict]
+        ):
+            print(
+                f"Sorry but extension '{extension}' does not exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
+            )
+
+
+def executing_command(responce_from_the_user: str):
+    tries = 2
+    if responce_from_the_user == "file-sort":
+        while tries > 0:
+            try:
+                sorter = FileSorter(input("Please etter folder path: "))
+                sorter.trash_sorting()
+                print("Files are successfully sorted!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter folder path!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
+
+    elif responce_from_the_user == "file-extension-add":
+        while tries > 0:
+            try:
+                adding_extension(
+                    input(
+                        "Please enter file type Image / Audio / Video / Document or Archive: "
+                    ),
+                    input("Please enter any extension in the format '.***': "),
+                )
+                print("New extension successfully added!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter file type!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
+
+    elif responce_from_the_user == "file-extension-remove":
+        while tries > 0:
+            try:
+                removing_extension(
+                    input(
+                        "Please enter file type Image / Audio / Video / Document or Archive: "
+                    ),
+                    input("Please enter any extension in the format '.***': "),
+                )
+                print("Extension successfully removed!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter file type!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
+
+
+if __name__ == "__main__":
+    print(f"Hi this {__name__} module!")
