@@ -10,7 +10,7 @@ class Email:
             self.email = email
         else:
             raise ValueError("Incorrect email! Please provide correct email.")
-        
+
     def __str__(self):
         return str(self.email)
 
@@ -34,7 +34,7 @@ class Name:
         if len(name) >= 3 and name.isalpha():
             return True
         return False
-    
+
     def __str__(self):
         return str(self.name)
 
@@ -48,7 +48,7 @@ class Phone:
 
     def is_valid_phone(self, phone):
         return bool(re.findall(r"^\+380[0-9]{9}$|^[0-9]{10}$|^3[0-9]{9}$", phone))
-    
+
     def __str__(self):
         return str(self.value)
 
@@ -72,23 +72,6 @@ class Birthday:
             self._value = datetime.strptime(val, "%Y-%m-%d").date()
         else:
             raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
-        
+
     def __str__(self):
         return str(self.value)
-
-class Note:
-    def __init__(self, title):
-        self.title = title
-        self.content = ""
-        self.tags = []
-
-    def add_tag(self, value):
-        result = map(lambda t: t.value, self.tags)
-        if not value in result:
-            self.tags.append(value)
-
-    def add_content(self, value):
-        self.content = value
-        
-    def __str__(self):
-        return str(self.title)

@@ -1,4 +1,5 @@
 from AddressBook import *
+from NoteFeature import *
 from pathlib import Path
 from FileSorting import executing_command
 from prompt_toolkit import prompt
@@ -25,6 +26,7 @@ def available_commands():
         "note-edit",
         "note-remove",
         "tag-add",
+        "tag-edit",
         "tag-remove",
         "tag-find-sort",
         "file-sort",
@@ -52,6 +54,7 @@ def available_commands():
         "редагування існуючої нотатки",
         "видалення існуючої нотатки",
         "додавання тегів до існуючої нотатки",
+        "редагування тегів існуючої нотатки",
         "видалення тегів з існуючої нотатки",
         "пошук та сортування нотаток за тегами",
         "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.).",
@@ -86,6 +89,7 @@ command_explain = WordCompleter(
         "note-edit",
         "note-remove",
         "tag-add",
+        "tag-edit",
         "tag-remove",
         "tag-find-sort",
         "file-sort",
@@ -123,7 +127,7 @@ def main():
                 # 'зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів'
                 try:
                     book.add_contacts()
-                    
+
                 except ValueError as e:
                     print(f"Error: {e}")
                     print("Failed to add info. Please try again.")
@@ -159,39 +163,43 @@ def main():
                 pass
 
             case "contact-remove":
-                # 'редагування birthday існуючого контакту'
-                pass
+                # "видалення існуючого контакту"
+                book.del_contact()
 
             case "display-birthdays":
-                # 'редагування birthday існуючого контакту'
-                pass
-
-            case "note-add":
-                # 'видалення існуючого контакту'
-                pass
-
-            case "note-find":
                 # "виводить список контактів, у яких день народження через задану кількість днів від поточної дати"
                 pass
 
-            case "note-show-all":
-                # "зберігає нотатку за іменем автора"
+            case "note-add":
+                # "зберігає нотатку за іменем автора",
                 pass
 
-            case "note-edit":
+            case "note-find":
                 # "здійснює пошук нотатки серед існуючих нотатків"
                 pass
 
+            case "note-show-all":
+                # "показує всі існуючі нотатки"
+                pass
+
+            case "note-edit":
+                # "редагування існуючої нотатки"
+                pass
+
             case "note-remove":
-                # "показує всі існуючі нотатки",
+                # "видалення існуючої нотатки"
                 pass
 
             case "tag-add":
                 #  "додавання тегів до існуючої нотатки"
                 pass
 
+            case "tag-edit":
+                #  "редагування тегів існуючої нотатки"
+                pass
+
             case "tag-remove":
-                #  "додавання тегів до існуючої нотатки"
+                #  "видалення тегів з існуючої нотатки"
                 pass
 
             case "tag-find-sort":
@@ -212,21 +220,26 @@ def main():
 
             case "quit" | "exit" | "q":
                 print("Good bye!\n")
-                # сюди так само можна передавати файл і видалити іnput з save_to_file
+
                 serialization = AddressBook()
                 serialization.save_to_file(file_name, book)
+                note_serialization = NoteBook()
+                note_serialization.note_save_to_file(note_name, note)
                 break
 
             case _:
                 print(
-                    f"Such command '{from_user}' does not exist! TO saw available commands please type 'cli'."
+                    f"Such command '{from_user}' does not exist! To saw available commands please type 'cli'."
                 )
 
 
 if __name__ == "__main__":
     file_name = "database.bin"
+    note_name = "notebase.bin"
     file_database = Path(file_name)
+    note_database = Path(note_name)
 
+    #####
     if file_database.exists() and file_database.is_file():
         with open(file_database, "rb") as fh:
             check_content = fh.read()
@@ -240,5 +253,19 @@ if __name__ == "__main__":
         with open(file_database, "wb") as fh:
             pass
         book = AddressBook()
+
+    #####
+    if note_database.exists() and note_database.is_file():
+        with open(note_database, "rb") as fh:
+            check_content = fh.read()
+        if not check_content:
+            note = NoteBook()
+        else:
+            desirialization = NoteBook()
+            note = desirialization.note_read_from_file(note_name)
+    else:
+        with open(note_database, "wb") as fh:
+            pass
+        note = AddressBook()
 
     main()
