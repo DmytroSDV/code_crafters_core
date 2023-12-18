@@ -135,7 +135,8 @@ def main():
 
             case "contact-show-all":
                 # "показує всі існуючі контакти в книзі контактів"
-                pass
+                book.show_all_contacts()
+                
             case "contact-phone-add":
                 # "додати іще 1-ин phone до існуючого контакту"
                 pass
