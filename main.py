@@ -8,6 +8,7 @@ from prompt_toolkit.application.current import get_app
 
 def available_commands():
     command_list = [
+        "cli",
         "contact-add",
         "contact-find",
         "contact-show-all",
@@ -33,6 +34,7 @@ def available_commands():
         "q",
     ]
     command_explain = [
+        "виводить список всіх доступних команд",
         "зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів",
         "здійснює пошук контакту серед контактів книги",
         "показує всі існуючі контакти в книзі контактів",
@@ -65,6 +67,7 @@ def available_commands():
 
 command_explain = WordCompleter(
     [
+        "cli",
         "contact-add",
         "contact-find",
         "contact-show-all",
@@ -104,7 +107,7 @@ def pre_run():
 def main():
     while 1:
         from_user = prompt(
-            "To see available list of commands enter 'cli'.\nCommand prompt: ",
+            "Command prompt: ",
             completer=command_explain,
             pre_run=pre_run,
         )
@@ -122,13 +125,10 @@ def main():
                     print("Failed to add info. Please try again.")
                 else:
                     print("Contact added successfully.")
-                
 
             case "contact-find":
                 # 'здійснює пошук контакту серед контактів книги'
                 book.search_contact()
-                
-                
 
             case "contact-show-all":
                 # "показує всі існуючі контакти в книзі контактів"
