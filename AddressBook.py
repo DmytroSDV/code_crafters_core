@@ -33,7 +33,6 @@ class AddressBook(UserList):
             "phone": record.phones,
             "birthday": record.birthday,
             "email": record.email,
-            "note": record.note,
         }
         self.data.append(contacts)
         self.id += 1
