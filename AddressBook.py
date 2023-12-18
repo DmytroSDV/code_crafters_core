@@ -19,15 +19,13 @@ class AddressBook(UserList):
         birthday = input("Please enter birthday: ")
         email = input("Please enter email: ")
         record.add_email(email)
-        # note=input('Please enter note: ')
-        # record.add_note(note)
+
         if birthday:
             # year, month, day = map(int, birthday.split())
             record.birthday = Birthday(birthday)
         if email:
             record.email = Email(email)
-        # if note:
-        # record.note=Note(note)
+
 
         contacts = {
             "id": self.id,
@@ -132,7 +130,7 @@ class AddressBook(UserList):
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
-            print(f"Контакты записаны в файл: {file_path}")
+            print(f"Contacts added to: {file_path}")
 
 
     def read_from_file(self, file_path: str):
