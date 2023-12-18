@@ -7,7 +7,9 @@ import emoji
 
 
 class AddressBook(UserList):
-    id = 1
+    def __init__(self):
+        super().__init__()
+        self.id = 1
 
     def add_contacts(self):
         name = input("Please enter name: ")
@@ -36,7 +38,7 @@ class AddressBook(UserList):
             "note": record.note,
         }
         self.data.append(contacts)
-        AddressBook.id += 1
+        self.id += 1
         print("add contact")
 
     def birthdays(self, days):
