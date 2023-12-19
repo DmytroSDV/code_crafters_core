@@ -255,6 +255,6 @@ class AddressBook(UserList):
 
             if contacts:
                 for uzer in contacts:
-                    print(f'Name: {uzer["name"].name}')
-                else:
-                    print('there are no birthdays in this number of day')
+                    print(f'Name: {uzer["name"].name}, Birthday: {uzer["birthday"].value}')
+            if not contact:
+                print('there are no birthdays in this number of day')
