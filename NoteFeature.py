@@ -99,29 +99,57 @@ class NoteRec:
         self.note = Note(new_note)
 
     def __str__(self):
-        return f"Note name: '{self.name.value}', tags: [{' | '.join(tag.value for tag in self.tags)}], note '{self.note}'."
+        print(emoji.emojize("🧨---------------------------------------🧨"))
+        return emoji.emojize(
+            f"🎯 Note name: '{self.name.value}'\n👀 tags: [{' | '.join(tag.value for tag in self.tags)}]\n📝 note '{self.note}'\n✨---------------------------------------✨")
 
 
 class NoteBook(UserDict):
     def add_new_note(self):
-        note_name = input("Please enter note name: ")
-        note_data = input("Please type your note: ")
-        tag_data = input("Please enter applicable tag: ")
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                note_data = input("Please type your note: ")
+                tag_data = input("Please enter applicable tag: ")
 
-        note_rec = NoteRec(note_name)
-        note_rec.add_note(note_data)
-        note_rec.add_tag(tag_data)
-
-        self.data[note_rec.name.value] = note_rec
-        print("New note successfully added!")
+                note_rec = NoteRec(note_name)
+                note_rec.add_note(note_data)
+                note_rec.add_tag(tag_data)
+                self.data[note_rec.name.value] = note_rec
+                print("New note successfully added!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
 
     def find_author(self):
-        note_name = input("Please enter note name: ")
-        for key in self.data:
-            if key == note_name:
-                print(self.data[note_name])
-        if not note_name in self.data:
-            print("Such note does not created!")
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                for key in self.data:
+                    if key == note_name:
+                        print(self.data[note_name])
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
+                break
+
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
 
     def note_show_all(self):
         for key in self.data:
@@ -130,62 +158,157 @@ class NoteBook(UserDict):
             print("Note list is empty!")
 
     def note_edit(self):
-        note_name = input("Please enter note name: ")
-        if not note_name in self.data:
-            print("Such note does not created!")
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
 
-        new_note = input("Please type new note: ")
-        for key in self.data:
-            if key == note_name:
-                self.data[note_name].edit_note(new_note)
-                print("Note successfully updated!")
+                new_note = input("Please type new note: ")
+                for key in self.data:
+                    if key == note_name:
+                        self.data[note_name].edit_note(new_note)
+                        print("Note successfully updated!")
+                break
+
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
 
     def note_remove(self):
-        note_name = input("Please enter note name: ")
-        if not note_name in self.data:
-            print("Such note does not created!")
-            return
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
 
-        temp_dict = self.data.copy()
-        for key in temp_dict:
-            if key == note_name:
-                self.data.pop(note_name)
-                print("Note successfully deleted!")
+                temp_dict = self.data.copy()
+                for key in temp_dict:
+                    if key == note_name:
+                        self.data.pop(note_name)
+                        print("Note successfully deleted!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
 
     def tag_add(self):
-        note_name = input("Please enter note name: ")
-        if not note_name in self.data:
-            print("Such note does not created!")
-            return
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
 
-        additional_tag = input("Please type additional tag: ")
-        for key in self.data:
-            if key == note_name:
-                self.data[note_name].add_tag(additional_tag)
-                print("Tag successfully added!")
+                additional_tag = input("Please type additional tag: ")
+                for key in self.data:
+                    if key == note_name:
+                        self.data[note_name].add_tag(additional_tag)
+                        print("Tag successfully added!")
+                break
+
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
 
     def tag_edit(self):
-        note_name = input("Please enter note name: ")
-        if not note_name in self.data:
-            print("Such note does not created!")
-            return
-        old_tag = input("Please type tag that must be replaced: ")
-        additional_tag = input("Please type new tag: ")
-        for key in self.data:
-            if key == note_name:
-                self.data[note_name].edit_tag(old_tag, additional_tag)
-                print("Tag successfully added!")
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
 
-    def find_tag(self, name):
-        for key in self.data:
-            if key == name:
-                return self.data[name]
+                print(
+                    f"Available tags in the note {note_name} - ",
+                    " | ".join(tag.value for tag in self.data[note_name].tags),
+                )
+                old_tag = input("Please choose the tag that must be replaced: ")
 
-    def delete(self, user):
-        temp_dict = self.data.copy()
-        for keys in temp_dict:
-            if keys == user:
-                self.data.pop(user)
+                check_tag = any(
+                    tag.value == old_tag for tag in self.data[note_name].tags
+                )
+                if not check_tag:
+                    raise ValueError("Such tag does not exist!")
+
+                additional_tag = input("Please type new tag: ")
+                for key in self.data:
+                    if key == note_name:
+                        self.data[note_name].edit_tag(old_tag, additional_tag)
+                        print("Tag successfully added!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
+
+    def tag_remove(self):
+        tries = 2
+        while tries > 0:
+            try:
+                note_name = input("Please enter note name: ")
+                if not note_name in self.data:
+                    raise ValueError("Such note does not exist!")
+
+                print(
+                    f"Available tags in the note {note_name} - ",
+                    " | ".join(tag.value for tag in self.data[note_name].tags),
+                )
+                old_tag = input("Please choose the tag that must be replaced: ")
+
+                check_tag = any(
+                    tag.value == old_tag for tag in self.data[note_name].tags
+                )
+                if not check_tag:
+                    raise ValueError("Such tag does not exist!")
+
+                for key in self.data:
+                    if key == note_name:
+                        self.data[note_name].remove_tag(old_tag)
+                        print("Tag successfully removed!")
+                break
+            except Exception as ex:
+                tries -= 1
+                message = (
+                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    if tries > 0
+                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                )
+                print(message)
+                continue
+
+    def tag_find_and_sort(self):
+        # note_name = input("Please enter tag name: ")
+        # for key in self.data:
+        #     for info in self.data[key]:
+        #         print(info)
+        # Need to update
+        print("Need to develop")
 
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:

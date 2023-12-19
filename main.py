@@ -165,7 +165,7 @@ def main():
 
             case "contact-email-remove":
                 # "видалення існуючого email",
-                pass
+                book.remove_email()
 
             case "contact-phone-edit":
                 # "редагування phone існуючого контакту"
@@ -217,11 +217,11 @@ def main():
 
             case "tag-remove":
                 #  "видалення тегів з існуючої нотатки"
-                pass
+                note.tag_remove()
 
             case "tag-find-sort":
                 #  "пошук та сортування нотаток за тегами"
-                pass
+                note.tag_find_and_sort()
 
             case "file-sort":
                 #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
