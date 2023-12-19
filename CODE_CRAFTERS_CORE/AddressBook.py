@@ -1,5 +1,5 @@
-from Record import Record
-from RecordData import *
+from CODE_CRAFTERS_CORE.Record import Record
+from CODE_CRAFTERS_CORE.RecordData import *
 from collections import UserList
 import pickle
 from datetime import datetime,timedelta
