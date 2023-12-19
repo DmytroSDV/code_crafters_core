@@ -1,7 +1,7 @@
-from AddressBook import *
-from NoteFeature import *
+from CODE_CRAFTERS_CORE.AddressBook import *
+from CODE_CRAFTERS_CORE.NoteFeature import *
 from pathlib import Path
-from FileSorting import executing_command
+from CODE_CRAFTERS_CORE.FileSorting import executing_command
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.application.current import get_app
@@ -120,6 +120,40 @@ def available_commands():
 
 
 def main():
+    file_name = "database.bin"
+    note_name = "notebase.bin"
+    file_database = Path(file_name)
+    note_database = Path(note_name)
+
+    #####
+    if file_database.exists() and file_database.is_file():
+        with open(file_database, "rb") as fh:
+            check_content = fh.read()
+
+        if not check_content:
+            book = AddressBook()
+        else:
+            deserialization = AddressBook()
+            book = deserialization.read_from_file(file_name)
+    else:
+        with open(file_database, "wb") as fh:
+            pass
+        book = AddressBook()
+
+    #####
+    if note_database.exists() and note_database.is_file():
+        with open(note_database, "rb") as fh:
+            check_content = fh.read()
+        if not check_content:
+            note = NoteBook()
+        else:
+            deserialization = NoteBook()
+            note = deserialization.note_read_from_file(note_name)
+    else:
+        with open(note_database, "wb") as fh:
+            pass
+        note = NoteBook()
+    
     while 1:
         from_user = prompt(
             "Command prompt: ",
@@ -247,38 +281,4 @@ def main():
 
 
 if __name__ == "__main__":
-    file_name = "database.bin"
-    note_name = "notebase.bin"
-    file_database = Path(file_name)
-    note_database = Path(note_name)
-
-    #####
-    if file_database.exists() and file_database.is_file():
-        with open(file_database, "rb") as fh:
-            check_content = fh.read()
-
-        if not check_content:
-            book = AddressBook()
-        else:
-            deserialization = AddressBook()
-            book = deserialization.read_from_file(file_name)
-    else:
-        with open(file_database, "wb") as fh:
-            pass
-        book = AddressBook()
-
-    #####
-    if note_database.exists() and note_database.is_file():
-        with open(note_database, "rb") as fh:
-            check_content = fh.read()
-        if not check_content:
-            note = NoteBook()
-        else:
-            deserialization = NoteBook()
-            note = deserialization.note_read_from_file(note_name)
-    else:
-        with open(note_database, "wb") as fh:
-            pass
-        note = NoteBook()
-
     main()

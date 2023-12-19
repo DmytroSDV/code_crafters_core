@@ -1,5 +1,5 @@
-from RecordData import *
-from datetime import datetime
+from CODE_CRAFTERS_CORE.RecordData import *
+from datetime import timedelta
 
 
 class Record:
@@ -59,3 +59,8 @@ class Record:
 
         except AttributeError:
             print(f"Contact name do not have birthday record")
+
+    def days_to_date(self, days, old_date):
+        delta = timedelta(days=days)
+        new_date = datetime.now() + delta
+        return new_date.month == old_date.month and new_date.day == old_date.day
