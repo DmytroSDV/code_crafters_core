@@ -138,7 +138,7 @@ def main():
                     print(f"Error: {e}")
                     print("Failed to add info. Please try again.")
                 else:
-                    print("Contact added successfully.")
+                    print("Contact added successfully✅.")
 
             case "contact-find":
                 # 'здійснює пошук контакту серед контактів книги'
@@ -150,17 +150,14 @@ def main():
 
             case "contact-phone-add":
                 # "додати іще 1-ин phone до існуючого контакту"
-                pass
                 book.add_phone()
 
             case "contact-phone-remove":
                 # "видалення існуючого phone",
-                pass
                 book.remove_phone()
 
             case "contact-email-add":
                 # "додати іще 1-ин email до існуючого контакту"
-                pass
                 book.add_email()
 
             case "contact-email-remove":
@@ -169,15 +166,15 @@ def main():
 
             case "contact-phone-edit":
                 # "редагування phone існуючого контакту"
-                pass
+                book.edit_phone()
 
             case "contact-email-edit":
                 # 'редагування email існуючого контакту'
-                pass
+                book.edit_email()
 
             case "contact-birthday-edit":
                 # 'редагування birthday існуючого контакту'
-                pass
+                book.edit_birthday()
 
             case "contact-remove":
                 # "видалення існуючого контакту"
@@ -185,7 +182,7 @@ def main():
 
             case "display-birthdays":
                 # "виводить список контактів, у яких день народження через задану кількість днів від поточної дати"
-                pass
+                book.show_contacts_birthdays()
 
             case "note-add":
                 # "зберігає нотатку за іменем автора",
