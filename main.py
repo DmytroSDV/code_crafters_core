@@ -194,23 +194,23 @@ def main():
 
             case "note-show-all":
                 # "показує всі існуючі нотатки"
-                pass
+                note.note_show_all()
 
             case "note-edit":
                 # "редагування існуючої нотатки"
-                pass
+                note.note_edit()
 
             case "note-remove":
                 # "видалення існуючої нотатки"
-                pass
+                note.note_remove()
 
             case "tag-add":
                 #  "додавання тегів до існуючої нотатки"
-                pass
+                note.tag_add()
 
             case "tag-edit":
                 #  "редагування тегів існуючої нотатки"
-                pass
+                note.tag_edit()
 
             case "tag-remove":
                 #  "видалення тегів з існуючої нотатки"

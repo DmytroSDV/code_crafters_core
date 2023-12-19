@@ -83,7 +83,6 @@ class AddressBook(UserList):
                 print("Телефон:", ', '.join(phone_numbers))
                 print("День рождения:", contact['birthday'])
                 print("Email:", contact['email'])
-                print("Примечание:", contact['note'] if contact['note'] else "Отсутствует")
                 print("✨---------------------------------------✨")
     
     def __str__(self):
