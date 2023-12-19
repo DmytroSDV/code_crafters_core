@@ -2,7 +2,7 @@ from Record import Record
 from RecordData import *
 from collections import UserList
 import pickle
-from datetime import datetime
+from datetime import datetime,timedelta
 from emoji import emojize
 from tabulate import tabulate
 
@@ -233,3 +233,39 @@ class AddressBook(UserList):
     def read_from_file(self, file_path: str):
         with open(file_path, "rb") as file:
             return pickle.load(file)
+
+
+    def edit_birthday(self): # редагування birthday існуючого контакту
+        name=input('Enter name of contact: ')
+        for contact in self.data:
+            if contact['name'].name==name and contact['birthday']:
+                new_birthday=input('Enter new birthday: ')
+                contact['birthday']=Birthday(new_birthday)
+                print('Birthday was changed')
+
+    def show_contacts_birthdays(self):
+        days = int(input('Enter days: '))
+        contacts = []
+
+        for contact in self.data:
+            if 'birthday' in contact and contact['birthday']:
+                birthday_date = contact['birthday'].value
+                record = Record(contact['name'].name, birthday=birthday_date)
+                if record.days_to_date(days, birthday_date):
+                    contacts.append(contact)
+
+            if contact:
+                for uzer in contact:
+                    print(f'Name: {uzer["name"].name}')
+                else:
+                    print('there are no birthdays in this number of day')
+
+
+
+
+
+
+
+
+
+
