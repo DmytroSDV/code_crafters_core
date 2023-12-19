@@ -2,7 +2,7 @@ from collections import UserDict
 import pickle
 from emoji import emojize
 from tabulate import tabulate
-from AddressBook import bcolors
+from CODE_CRAFTERS_CORE.AddressBook import bcolors
 
 class Field:
     def __init__(self, value):

@@ -1,4 +1,4 @@
-from RecordData import *
+from CODE_CRAFTERS_CORE.RecordData import *
 from datetime import timedelta
 
 
