@@ -23,16 +23,15 @@ class AddressBook(UserList):
         if birthday:
             # year, month, day = map(int, birthday.split())
             record.birthday = Birthday(birthday)
-        if email:
-            record.email = Email(email)
+ 
 
-
+       
         contacts = {
             "id": self.id,
             "name": record.name,
             "phone": record.phones,
             "birthday": record.birthday,
-            "email": record.email,
+            "email": record.emails,
         }
         self.data.append(contacts)
         self.id += 1
@@ -83,7 +82,7 @@ class AddressBook(UserList):
                 print("Телефон:", ', '.join(phone_numbers))
                 print("День рождения:", contact['birthday'])
                 print("Email:", contact['email'])
-                print("Примечание:", contact['note'] if contact['note'] else "Отсутствует")
+                # print("Примечание:", contact['note'] if contact['note'] else "Отсутствует")
                 print("✨---------------------------------------✨")
     
     def __str__(self):
@@ -109,22 +108,45 @@ class AddressBook(UserList):
         return result
 
     def remove_phone(self):
-        name = input()
+        name = input("Please enter name: ") 
+        
         for contacts in self.data:
-            if contacts["name"] == name:
-                phone = input("Please enter new phone")
-                contacts["phone"].remove(phone)
+            if str(contacts["name"]) == name:
+                phone_to_remove = input("Please enter the phone number to remove: ")            
+                phone_object_to_remove = None
+                
+                for phone_object in contacts["phone"]:
+                    if str(phone_object) == phone_to_remove:
+                        phone_object_to_remove = phone_object
+                        break
+                            
+                if phone_object_to_remove is not None:
+                    contacts["phone"].remove(phone_object_to_remove)
+                else:
+                    print("Phone number not found.")
             else:
                 print("Contact isn't here!")
-
-    def del_contact(self):
-        name = input("Please enter name: ")
+                
+    def add_phone(self):
+        user_input = input("Please enter name: ")
         for contact in self.data:
-            if str(contact["name"]) == name:
-                self.data.remove(contact)
-            else:
-                print("Contact isn't found")
+            if str(contact["name"]) == user_input:
+                phone = input("Please enter phone: ")
+                print(type(contact["phone"]))
+                contact["phone"].append(phone)
+                             
 
+    def add_email(self):
+        user_input = input("Please enter name: ")
+        for contact in self.data:
+            if str(contact["name"]) == user_input:
+                email = input("Please enter email: ")
+                print(type(contact["email"]))
+                contact["email"].append(email)
+                
+
+                
+                
 
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:

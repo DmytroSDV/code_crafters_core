@@ -7,7 +7,7 @@ class Record:
         self.name = Name(name)
         self.phones = []
         self.birthday = birthday
-        self.email = []
+        self.emails = []
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))

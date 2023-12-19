@@ -150,15 +150,15 @@ def main():
 
             case "contact-phone-add":
                 # "додати іще 1-ин phone до існуючого контакту"
-                pass
+                book.add_phone()
 
             case "contact-phone-remove":
                 # "видалення існуючого phone",
-                pass
+                book.remove_phone()
 
             case "contact-email-add":
                 # "додати іще 1-ин email до існуючого контакту"
-                pass
+                book.add_email()
 
             case "contact-email-remove":
                 # "видалення існуючого email",
