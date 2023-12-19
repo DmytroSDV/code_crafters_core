@@ -1,7 +1,8 @@
 from collections import UserDict
 import pickle
-import emoji
-
+from emoji import emojize
+from tabulate import tabulate
+from AddressBook import bcolors
 
 class Field:
     def __init__(self, value):
@@ -99,9 +100,22 @@ class NoteRec:
         self.note = Note(new_note)
 
     def __str__(self):
-        print(emoji.emojize("🧨---------------------------------------🧨"))
-        return emoji.emojize(
-            f"🎯 Note name: '{self.name.value}'\n👀 tags: [{' | '.join(tag.value for tag in self.tags)}]\n📝 note '{self.note}'\n✨---------------------------------------✨")
+        table = []
+        headers = [
+            emojize(":id: Auhtor", language="alias"),
+            emojize(":bust_in_silhouette: Tags", language="alias"),
+            emojize(":notebook: Note", language="alias"),
+        ]
+
+
+        table.append([
+            emojize(f"🎯 '{self.name.value}'", language="alias"),
+            emojize(f"👀 [{' | '.join(tag.value for tag in self.tags)}]", language="alias"),
+            emojize(f"📝 '{self.note}'", language="alias"),
+        ])
+
+
+        return f"{bcolors.P + tabulate(table, headers=headers, tablefmt='pretty') + bcolors.EN}"
 
 
 class NoteBook(UserDict):

@@ -174,7 +174,7 @@ def main():
 
             case "contact-birthday-edit":
                 # 'редагування birthday існуючого контакту'
-                book.edit_birthday()
+                book.edit_birthday()  # TODO
 
             case "contact-remove":
                 # "видалення існуючого контакту"
@@ -182,7 +182,7 @@ def main():
 
             case "display-birthdays":
                 # "виводить список контактів, у яких день народження через задану кількість днів від поточної дати"
-                book.show_contacts_birthdays()
+                book.show_contacts_birthdays() # TODO
 
             case "note-add":
                 # "зберігає нотатку за іменем автора",
@@ -218,7 +218,7 @@ def main():
 
             case "tag-find-sort":
                 #  "пошук та сортування нотаток за тегами"
-                note.tag_find_and_sort()
+                note.tag_find_and_sort() # TODO
 
             case "file-sort":
                 #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
