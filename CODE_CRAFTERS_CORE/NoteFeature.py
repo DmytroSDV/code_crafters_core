@@ -2,7 +2,7 @@ from collections import UserDict
 import pickle
 from emoji import emojize
 from tabulate import tabulate
-from CODE_CRAFTERS_CORE.AddressBook import bcolors
+from RecordData import bcolors
 
 class Field:
     def __init__(self, value):
@@ -28,7 +28,7 @@ class AuthorName(Field):
             self._value = val
         else:
             raise ValueError(
-                "Invalid phone format! Must be not empty and started with the letter!"
+               bcolors.RED + "Invalid phone format! Must be not empty and started with the letter!" + bcolors.RESET
             )
 
 
@@ -47,7 +47,7 @@ class Note(Field):
         if val:
             self._value = val
         else:
-            raise ValueError("Invalid note format! Must be not empty!")
+            raise ValueError(bcolors.RED + "Invalid note format! Must be not empty!" + bcolors.RESET)
 
 
 class Tag(Field):
@@ -65,7 +65,7 @@ class Tag(Field):
         if val:
             self._value = val
         else:
-            raise ValueError("Invalid note format! Must be not empty!")
+            raise ValueError(bcolors.RED + "Invalid note format! Must be not empty!" + bcolors.RESET)
 
 
 class NoteRec:
@@ -90,7 +90,7 @@ class NoteRec:
                 self.tags[ind] = Tag(new_tag)
                 check_flag = True
         if not check_flag:
-            raise ValueError("Such tag is missed in the list!")
+            raise ValueError(bcolors.RED + "Such tag is missed in the list!" + bcolors.RESET)
 
     def add_note(self, note):
         if Note(note):
@@ -152,7 +152,7 @@ class NoteBook(UserDict):
                     if key == note_name:
                         print(self.data[note_name])
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
                 break
 
             except Exception as ex:
@@ -177,7 +177,7 @@ class NoteBook(UserDict):
             try:
                 note_name = input("Please enter note name: ")
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
 
                 new_note = input("Please type new note: ")
                 for key in self.data:
@@ -202,7 +202,7 @@ class NoteBook(UserDict):
             try:
                 note_name = input("Please enter note name: ")
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
 
                 temp_dict = self.data.copy()
                 for key in temp_dict:
@@ -226,7 +226,7 @@ class NoteBook(UserDict):
             try:
                 note_name = input("Please enter note name: ")
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
 
                 additional_tag = input("Please type additional tag: ")
                 for key in self.data:
@@ -251,7 +251,7 @@ class NoteBook(UserDict):
             try:
                 note_name = input("Please enter note name: ")
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
 
                 print(
                     f"Available tags in the note {note_name} - ",
@@ -263,7 +263,7 @@ class NoteBook(UserDict):
                     tag.value == old_tag for tag in self.data[note_name].tags
                 )
                 if not check_tag:
-                    raise ValueError("Such tag does not exist!")
+                    raise ValueError(bcolors.RED + "Such tag does not exist!" + bcolors.RESET)
 
                 additional_tag = input("Please type new tag: ")
                 for key in self.data:
@@ -287,7 +287,7 @@ class NoteBook(UserDict):
             try:
                 note_name = input("Please enter note name: ")
                 if not note_name in self.data:
-                    raise ValueError("Such note does not exist!")
+                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
 
                 print(
                     f"Available tags in the note {note_name} - ",
@@ -299,7 +299,7 @@ class NoteBook(UserDict):
                     tag.value == old_tag for tag in self.data[note_name].tags
                 )
                 if not check_tag:
-                    raise ValueError("Such tag does not exist!")
+                    raise ValueError(bcolors.RED + "Such tag does not exist!" + bcolors.RESET)
 
                 for key in self.data:
                     if key == note_name:
@@ -321,14 +321,12 @@ class NoteBook(UserDict):
         temp_list = []
         for key in self.data:
             for tag in self.data[key].tags:
+                print(str(tag), str(tag_name), tag_name == tag.value)
                 if tag.value == tag_name:
                     temp_list.append(self.data[key])
-        if temp_list == []:
-            print(f"There are no notes with tag '{tag_name}' in the notebook")
-        else:
-            for item in temp_list:
-                print(item)
-
+        temp_list.sort()
+        for item in temp_list:
+            print(item)
 
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:

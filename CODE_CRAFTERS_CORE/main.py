@@ -1,80 +1,13 @@
-from CODE_CRAFTERS_CORE.AddressBook import *
-from CODE_CRAFTERS_CORE.NoteFeature import *
+from AddressBook import *
+from NoteFeature import *
 from pathlib import Path
-from CODE_CRAFTERS_CORE.FileSorting import executing_command
+from FileSorting import executing_command
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.application.current import get_app
 
 
-def available_commands():
-    command_list = [
-        "cli",
-        "contact-add",
-        "contact-find",
-        "contact-show-all",
-        "contact-phone-add",
-        "contact-phone-remove",
-        "contact-email-add",
-        "contact-email-remove",
-        "contact-phone-edit",
-        "contact-email-edit",
-        "contact-birthday-edit",
-        "contact-remove",
-        "display-birthdays",
-        "note-add",
-        "note-find",
-        "note-show-all",
-        "note-edit",
-        "note-remove",
-        "tag-add",
-        "tag-edit",
-        "tag-remove",
-        "tag-find-sort",
-        "file-sort",
-        "file-extension-add",
-        "file-extension-remove",
-        "quit",
-        "exit",
-        "q",
-    ]
-    command_explain = [
-        "виводить список всіх доступних команд",
-        "зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів",
-        "здійснює пошук контакту серед контактів книги",
-        "показує всі існуючі контакти в книзі контактів",
-        "додати іще 1-ин phone до існуючого контакту",
-        "видалення існуючого phone",
-        "додати іще 1-ин email до існуючого контакту",
-        "видалення існуючого email",
-        "редагування phone існуючого контакту",
-        "редагування email існуючого контакту",
-        "редагування birthday існуючого контакту",
-        "видалення існуючого контакту",
-        "виводить список контактів, у яких день народження через задану кількість днів від поточної дати",
-        "зберігає нотатку за іменем автора",
-        "здійснює пошук нотатки серед існуючих нотатків",
-        "показує всі існуючі нотатки",
-        "редагування існуючої нотатки",
-        "видалення існуючої нотатки",
-        "додавання тегів до існуючої нотатки",
-        "редагування тегів існуючої нотатки",
-        "видалення тегів з існуючої нотатки",
-        "пошук та сортування нотаток за тегами",
-        "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.).",
-        "додавання додатково розширення для сортування",
-        "видалення розширення із списку для сортування",
-        "вихід з програми",
-        "вихід з програми",
-        "вихід з програми",
-    ]
-    return "".join(
-        "|{:<10} - {:<20}|\n".format(command_list[item], command_explain[item])
-        for item in range(len(command_list))
-    )
-
-
-command_explain = WordCompleter(
+COMMAND_EXPLAIN = WordCompleter(
     [
         "cli",
         "contact-add",
@@ -117,45 +50,80 @@ def pre_run():
         b.start_completion(select_first=False)
 
 
+def available_commands():
+    command_list = [
+        "cli",
+        "contact-add",
+        "contact-find",
+        "contact-show-all",
+        "contact-phone-add",
+        "contact-phone-remove",
+        "contact-email-add",
+        "contact-email-remove",
+        "contact-phone-edit",
+        "contact-email-edit",
+        "contact-birthday-edit",
+        "contact-remove",
+        "display-birthdays",
+        "note-add",
+        "note-find",
+        "note-show-all",
+        "note-edit",
+        "note-remove",
+        "tag-add",
+        "tag-edit",
+        "tag-remove",
+        "tag-find-sort",
+        "file-sort",
+        "file-extension-add",
+        "file-extension-remove",
+        "quit",
+        "exit",
+        "q",
+    ]
+
+    command_explain = [
+        "виводить список всіх доступних команд",
+        "зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів",
+        "здійснює пошук контакту серед контактів книги",
+        "показує всі існуючі контакти в книзі контактів",
+        "додати іще 1-ин phone до існуючого контакту",
+        "видалення існуючого phone",
+        "додати іще 1-ин email до існуючого контакту",
+        "видалення існуючого email",
+        "редагування phone існуючого контакту",
+        "редагування email існуючого контакту",
+        "редагування birthday існуючого контакту",
+        "видалення існуючого контакту",
+        "виводить список контактів, у яких день народження через задану кількість днів від поточної дати",
+        "зберігає нотатку за іменем автора",
+        "здійснює пошук нотатки серед існуючих нотатків",
+        "показує всі існуючі нотатки",
+        "редагування існуючої нотатки",
+        "видалення існуючої нотатки",
+        "додавання тегів до існуючої нотатки",
+        "редагування тегів існуючої нотатки",
+        "видалення тегів з існуючої нотатки",
+        "пошук та сортування нотаток за тегами",
+        "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.).",
+        "додавання додатково розширення для сортування",
+        "видалення розширення із списку для сортування",
+        "вихід з програми",
+        "вихід з програми",
+        "вихід з програми",
+    ]
+
+    return "".join(
+        "|{:<10} - {:<20}|\n".format(command_list[item], command_explain[item])
+        for item in range(len(command_list))
+    )
+
+
 def main():
-    file_name = "database.bin"
-    note_name = "notebase.bin"
-    file_database = Path(file_name)
-    note_database = Path(note_name)
-
-    #####
-    if file_database.exists() and file_database.is_file():
-        with open(file_database, "rb") as fh:
-            check_content = fh.read()
-
-        if not check_content:
-            book = AddressBook()
-        else:
-            deserialization = AddressBook()
-            book = deserialization.read_from_file(file_name)
-    else:
-        with open(file_database, "wb") as fh:
-            pass
-        book = AddressBook()
-
-    #####
-    if note_database.exists() and note_database.is_file():
-        with open(note_database, "rb") as fh:
-            check_content = fh.read()
-        if not check_content:
-            note = NoteBook()
-        else:
-            deserialization = NoteBook()
-            note = deserialization.note_read_from_file(note_name)
-    else:
-        with open(note_database, "wb") as fh:
-            pass
-        note = NoteBook()
-    
     while 1:
         from_user = prompt(
             "Command prompt: ",
-            completer=command_explain,
+            completer=COMMAND_EXPLAIN,
             pre_run=pre_run,
         )
 
@@ -165,14 +133,7 @@ def main():
 
             case "contact-add":
                 # 'зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів'
-                try:
-                    book.add_contacts()
-
-                except ValueError as e:
-                    print(f"Error: {e}")
-                    print("Failed to add info. Please try again.")
-                else:
-                    print("Contact added successfully✅.")
+                book.add_contacts()
 
             case "contact-find":
                 # 'здійснює пошук контакту серед контактів книги'
@@ -208,7 +169,7 @@ def main():
 
             case "contact-birthday-edit":
                 # 'редагування birthday існуючого контакту'
-                book.edit_birthday()  # TODO
+                book.edit_birthday()
 
             case "contact-remove":
                 # "видалення існуючого контакту"
@@ -216,7 +177,7 @@ def main():
 
             case "display-birthdays":
                 # "виводить список контактів, у яких день народження через задану кількість днів від поточної дати"
-                book.show_contacts_birthdays() # TODO
+                book.show_contacts_birthdays()
 
             case "note-add":
                 # "зберігає нотатку за іменем автора",
@@ -275,6 +236,10 @@ def main():
                 note_serialization.note_save_to_file(note_name, note)
                 break
 
+            case "add" | "remove" | "edit":  # TODO
+                # "Авто сохранение"
+                book.save_to_file()
+
             case _:
                 print(
                     f"Such command '{from_user}' does not exist! To saw available commands please type 'cli'."
@@ -282,4 +247,38 @@ def main():
 
 
 if __name__ == "__main__":
+    file_name = "database.bin"
+    note_name = "notebase.bin"
+    file_database = Path(file_name)
+    note_database = Path(note_name)
+
+    #####
+    if file_database.exists() and file_database.is_file():
+        with open(file_database, "rb") as fh:
+            check_content = fh.read()
+
+        if not check_content:
+            book = AddressBook()
+        else:
+            deserialization = AddressBook()
+            book = deserialization.read_from_file(file_name)
+    else:
+        with open(file_database, "wb") as fh:
+            pass
+        book = AddressBook()
+
+    #####
+    if note_database.exists() and note_database.is_file():
+        with open(note_database, "rb") as fh:
+            check_content = fh.read()
+        if not check_content:
+            note = NoteBook()
+        else:
+            deserialization = NoteBook()
+            note = deserialization.note_read_from_file(note_name)
+    else:
+        with open(note_database, "wb") as fh:
+            pass
+        note = NoteBook()
+
     main()
