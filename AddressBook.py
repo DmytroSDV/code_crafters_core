@@ -147,7 +147,32 @@ class AddressBook(UserList):
             if str(contact["name"]) == user_input:
                 email = input("Please enter email: ")
                 contact["email"].append(email)
+    
+    def edit_email(self):
+        user_input = input("Please enter name: ")  
+        for contact in self.data:
+            if str(contact["name"]) == user_input:
+                edit_to_email = input("Enter the email to edit📧: ")
+                new_email = input("Enter the email📧: ")
+                email_object_to_edit = None
                 
+                for i, email_object in enumerate(contact["email"]):
+                    if str(email_object) == edit_to_email:
+                        email_object_to_edit = email_object
+                        break
+                
+                if email_object_to_edit is not None:
+                    print(f"Old email: {email_object_to_edit}")
+                    print(f"Successfully changed to {new_email}")
+                                 
+                    contact["email"].remove(email_object_to_edit)            
+                    contact["email"].append(new_email)
+                    
+                    print("Email edited successfully✅")
+                else:
+                    print("Error editing email: email not found❌")
+            
+    
     def remove_email(self):
         user_input = input("Please enter name: ")
         for contact in self.data:
@@ -171,8 +196,34 @@ class AddressBook(UserList):
         user_input = input("Please enter name: ")
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                phone = input("Please enter phone: ")
+                phone = input("Please enter phone📞: ")
                 contact["phone"].append(phone)
+                
+    def edit_phone(self):
+        user_input = input("Please enter name: ")  
+        for contact in self.data:
+            if str(contact["name"]) == user_input:
+                edit_to_phone_number = input("Enter the phone number to edit📞: ")
+                new_phone_number = input("Enter the new phone number📞: ")
+                phone_number_object_to_edit = None
+                
+                for i, phone_number_object in enumerate(contact["phone"]):
+                    if str(phone_number_object) == edit_to_phone_number:
+                        phone_number_object_to_edit = phone_number_object
+                        break
+                
+                if phone_number_object_to_edit is not None:
+                    print(f"Old number: {phone_number_object_to_edit}")
+                    print(f"Successfully changed to {new_phone_number}")
+                                 
+                    contact["phone"].remove(phone_number_object_to_edit)            
+                    contact["phone"].append(new_phone_number)
+                    
+                    print("Phone number edited successfully✅")
+                else:
+                    print("Error editing phone number: Number not found❌")
+            
+                    
 
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
