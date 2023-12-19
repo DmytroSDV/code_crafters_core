@@ -26,7 +26,6 @@ class AddressBook(UserList):
         if email:
             record.email = Email(email)
 
-
         contacts = {
             "id": self.id,
             "name": record.name,
@@ -47,28 +46,35 @@ class AddressBook(UserList):
         print(result)
 
     def search_contact(self):
-        name = input(emoji.emojize('🔍 Введите имя: '))
+        name = input(emoji.emojize("🔍 Введите имя:"'))
         found_contacts = []
 
         for contact in self.data:
-            if contact['name'].name.lower() == name.lower():
+            if contact["name"].name.lower() == name.lower():
                 found_contacts.append(contact)
 
         if found_contacts:
             for found_contact in found_contacts:
                 print(emoji.emojize(f"🎉 Найден контакт с именем '{name}':"))
-                print({
-                    emoji.emojize('🆔 ID:'): found_contact['id'],
-                    emoji.emojize('👤 Имя:'): str(found_contact['name']),
-                    emoji.emojize('📞 Телефон:'): [str(phone) for phone in found_contact['phone']],
-                    emoji.emojize('🎂 День рождения:'): str(found_contact['birthday']),
-                    emoji.emojize('📧 Email:'): str(found_contact['email']),
-                    emoji.emojize('📝 Примечание:'): str(found_contact['note'])
-                })
+                print(
+                    {
+                        emoji.emojize("🆔 ID"'): found_contact"id"'],
+                        emoji.emojize("👤 Имя"'): str(found_contact"name"']),
+                        emoji.emojize("📞 Телефон"'): 
+                            [str(phone) for phone in found_contact"phone"'
+                        ]],
+                        emoji.emojize("🎂 День рождения"): str(
+                            (found_contact"'birthda"'
+                        ]),
+                        emoji.emojize("📧 Email"'): str(found_contact"email"']),
+                        emoji.emojize("📝 Примечание"'): str(found_contact"note"'],
+                    }
+                )
                 print(emoji.emojize("✨---------------------------------------✨"))
         else:
             print(emoji.emojize(f"😞 Контакт с именем '{name}' не найден."))
-            
+
+
     def show_all_contacts(self):
         if not self.data:
             print("Книга контактов пуста.")
@@ -76,15 +82,15 @@ class AddressBook(UserList):
         else:
             print("Все контакты в книге:")
             for contact in self.data:
-                print("ID:", contact['id'])
-                print("Имя:", contact['name'])
-                if 'phone' in contact and isinstance(contact['phone'], list):
-                    phone_numbers = [str(phone) for phone in contact['phone']]
-                print("Телефон:", ', '.join(phone_numbers))
-                print("День рождения:", contact['birthday'])
-                print("Email:", contact['email'])
+                print("ID:", contact["id"])
+                print("Имя:", contact["name"])
+                if "phone" in contact and isinstance(contact["phone"], list):
+                    phone_numbers = [str(phone) for phone in contact["phone"]]
+                print("Телефон:", ", ".join(phone_numbers))
+                print("День рождения:", contact["birthday"])
+                print("Email:", contact["email"])
                 print("✨---------------------------------------✨")
-    
+
     def __str__(self):
         result = ""
         for account in self.data:
@@ -108,11 +114,21 @@ class AddressBook(UserList):
         return result
 
     def remove_phone(self):
-        name = input()
+        name = input("Please enter name: ")
         for contacts in self.data:
-            if contacts["name"] == name:
-                phone = input("Please enter new phone")
-                contacts["phone"].remove(phone)
+            if str(contacts["name"]) == name:
+                phone_to_remove = input("Please enter the phone number to remove: ")
+                phone_object_to_remove = None
+
+                for phone_object in contacts["phone"]:
+                    if str(phone_object) == phone_to_remove:
+                        phone_object_to_remove = phone_object
+                        break
+
+                if phone_object_to_remove is not None:
+                    contacts["phone"].remove(phone_object_to_remove)
+                else:
+                    print("Phone number not found.")
             else:
                 print("Contact isn't here!")
 
@@ -124,12 +140,27 @@ class AddressBook(UserList):
             else:
                 print("Contact isn't found")
 
-
+    def add_email(self):
+        user_input = input("Please enter name: ")
+        for contact in self.data:
+            if str(contact["name"]) == user_input:
+                email = input("Please enter email: ")
+                print(type(contact["email"]))
+                contact["email"].append(email)
+                
+    def add_phone(self):
+        user_input = input("Please enter name: ")
+        for contact in self.data:
+            if str(contact["name"]) == user_input:
+                phone = input("Please enter phone: ")
+                print(type(contact["phone"]))
+                contact["phone"].append(phone)
+    
+    
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
             print(f"Contacts added to: {file_path}")
-
 
     def read_from_file(self, file_path: str):
         with open(file_path, "rb") as file:
