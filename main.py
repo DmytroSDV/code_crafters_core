@@ -218,7 +218,7 @@ def main():
 
             case "tag-find-sort":
                 #  "пошук та сортування нотаток за тегами"
-                note.tag_find_and_sort() # TODO
+                note.tag_find_and_sort()
 
             case "file-sort":
                 #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."

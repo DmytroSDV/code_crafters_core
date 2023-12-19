@@ -321,12 +321,14 @@ class NoteBook(UserDict):
         temp_list = []
         for key in self.data:
             for tag in self.data[key].tags:
-                print(str(tag), str(tag_name), tag_name == tag.value)
                 if tag.value == tag_name:
                     temp_list.append(self.data[key])
-        temp_list.sort()
-        for item in temp_list:
-            print(item)
+        if temp_list == []:
+            print(f"There are no notes with tag '{tag_name}' in the notebook")
+        else:
+            for item in temp_list:
+                print(item)
+
 
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
