@@ -7,43 +7,44 @@ from emoji import emojize
 from tabulate import tabulate
 
 
-class bcolors:
-    P = "\033[95m"
-    G = "\033[92m"
-    R = "\033[0;31;40m"  # Красный
-    G = "\033[0;32;40m"  # Зеленый
-    Y = "\033[0;33;40m"  # Желтый
-    B = "\033[0;34;40m"  # Синий
-    EN = "\033[0m"
-
-
 class AddressBook(UserList):
     def __init__(self):
         super().__init__()
         self.id = 1
 
     def add_contacts(self):
-        name = input("Please enter name: ")
-        phone = input("Please enter phone: ")
-        record = Record(name)
-        record.add_phone(phone)
-        birthday = input("Please enter birthday: ")
-        email = input("Please enter email: ")
-        record.add_email(email)
+        attempts = 0
+       
+        
+        while attempts < 3:
+            try:
+                name = input("Please enter name: ")
+                record = Record(name)
+                phone = input("Please enter phone: ")                   
+                record.add_phone(phone)                   
+                birthday = input("Please enter birthday: ")
+                email = input("Please enter email: ")
+                record.add_email(email)
 
-        if birthday:
-            record.birthday = Birthday(birthday)
+                if birthday:
+                    record.birthday = Birthday(birthday)
 
-        contacts = {
-            "id": self.id,
-            "name": record.name,
-            "phone": record.phones,
-            "birthday": record.birthday,
-            "email": [str(email) for email in record.email],
-        }
-        self.data.append(contacts)
-        self.id += 1
-        print("add contact")
+                contacts = {
+                    "id": self.id,
+                    "name": record.name,
+                    "phone": record.phones,
+                    "birthday": record.birthday,
+                    "email": [str(email) for email in record.email],
+                }
+                self.data.append(contacts)
+                self.id += 1
+                print("Contact added successfully!✅")
+                break
+            except Exception as e:
+                attempts += 1
+                
+                print(f"Error: {e}")
+                print("Please enter the information again.")
 
     def birthdays(self, days):
         result = []
@@ -101,18 +102,14 @@ class AddressBook(UserList):
                     ]
                 )
             headers = [
-                emojize(":id: ID", language="alias"),
+                emojize(f":id:{bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
                 emojize(":bust_in_silhouette: Имя", language="alias"),
                 emojize(":telephone_receiver: Телефон", language="alias"),
                 emojize(":birthday_cake: День рождения", language="alias"),
                 emojize(":e-mail: Email", language="alias"),
             ]
-            print(
-                bcolors.G
-                + tabulate(table, headers=headers, tablefmt="pretty")
-                + bcolors.EN
-            )
-            print("✨" + "-" * 92 + "✨")
+
+            print(tabulate(table, headers=headers, tablefmt="pretty"))
 
     def remove_phone(self):
         name = input("Please enter name: ")
