@@ -11,8 +11,8 @@ setup(
                  "License :: OSI Approved :: MIT License"],
     license='MIT',
     packages=find_namespace_packages(),
-    data_files=[("code_crafters_core", ['code_crafters_core\database.bin', 'code_crafters_core\notebase.bin'])],
+    data_files=[("CODE_CRAFTERS_CORE", ['CODE_CRAFTERS_CORE\database.bin', 'CODE_CRAFTERS_CORE\notebase.bin'])],
     include_package_data = True,
     install_requires=['emoji', 'tabulate', 'unidecode', 'prompt_toolkit'],
-    entry_points={'console_scripts': ['codecrafters = code_crafters_core.main:main']}
+    entry_points={'console_scripts': ['codecrafters = CODE_CRAFTERS_CORE.main:main']}
 )
