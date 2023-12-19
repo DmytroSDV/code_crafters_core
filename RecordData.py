@@ -2,6 +2,19 @@ import re
 from datetime import datetime
 
 
+class bcolors:
+    P = "\033[95m"  # Розовый
+    G = "\033[92m"
+    R = "\033[0;31;40m"  # Красный
+    G = "\033[0;32;40m"  # Зеленый
+    Y = "\033[0;33;40m"  # Желтый
+    B = "\033[0;34;40m"  # Синий
+    BLUE = "\033[94m"
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    RESET = "\033[0m"  # Удаление цвета
+
+
 class Email:
     pattern = r"[a-zA-Z]{1}[\w\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}"
 
@@ -9,7 +22,7 @@ class Email:
         if re.match(self.pattern, email):
             self.email = email
         else:
-            raise ValueError("Incorrect email! Please provide correct email.")
+            raise ValueError(bcolors.RED + "Incorrect email! Please provide correct email." + bcolors.RESET)
 
     def __str__(self):
         return str(self.email)
@@ -17,23 +30,12 @@ class Email:
 
 class Name:
     def __init__(self, name):
-        self.set_name(name)
-
-    def get_name(self):
-        return self.name
-
-    def set_name(self, name):
-        if self.valid_name(name):
+        if len(name) >= 2:
             self.name = name
         else:
             raise ValueError(
-                "Wrong Name. Name needs to contain not less than 3 symbols"
+                bcolors.RED + "Name. Name needs to contain not less than 3 symbols" + bcolors.RESET
             )
-
-    def valid_name(self, name):
-        if len(name) >= 3 and name.isalpha():
-            return True
-        return False
 
     def __str__(self):
         return str(self.name)
@@ -42,7 +44,7 @@ class Name:
 class Phone:
     def __init__(self, value):
         if not self.is_valid_phone(value):
-            raise ValueError("Invalid phone number format")
+            raise ValueError(bcolors.RED + "Incorrect phone number format! Please provide correct phone number format." + bcolors.RESET)
         else:
             self.value = value
 
@@ -68,10 +70,10 @@ class Birthday:
         if re.match(date_pattern, val):
             date_split = val.split("-")
             if int(date_split[1]) > 12:
-                raise ValueError("After year YYYY you must enter month (1-12)!")
+                raise ValueError(bcolors.RED + "After year YYYY you must enter month (1-12)!" + bcolors.RESET)
             self._value = datetime.strptime(val, "%Y-%m-%d").date()
         else:
-            raise ValueError("Invalid date format! Must be YYYY-MM-DD!")
+            raise ValueError(bcolors.RED + "Invalid date format! Must be YYYY-MM-DD!" + bcolors.RESET)
 
     def __str__(self):
         return str(self.value)
