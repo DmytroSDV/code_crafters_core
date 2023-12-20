@@ -1,3 +1,4 @@
+from CODE_CRAFTERS_CORE.RecordData import bcolors
 import shutil
 from pathlib import Path
 from unidecode import unidecode
@@ -34,7 +35,7 @@ class FileSorter:
         if folder_path.exists() and folder_path.is_dir():
             self._path_to_folder = folder_path
         else:
-            raise ValueError("No such folder exists!")
+            raise ValueError(bcolors.FAIL + "❌ No such folder exists!😞" + bcolors.RESET)
 
     def is_dir_empty(self, path_argv: Path) -> bool:
         for element in path_argv.iterdir():
@@ -69,7 +70,7 @@ class FileSorter:
                         try:
                             element = element.rename(new_path)
                         except Exception as e:
-                            print(f"exeption - {e}")
+                            print(f"{bcolors.FAIL}❌ Exeption❗ - {bcolors.RESET}{e}")
                         trash_sorting_recursion(element)
                         if self.is_dir_empty(element):
                             element.rmdir()
@@ -137,14 +138,14 @@ def adding_extension(key_from_dict: str, extension: str):
     else:
         if not key_from_dict in FileSorter.extensions_dict.keys():
             raise ValueError(
-                f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
+                f"{bcolors.FAIL}😞 Sorry but such {bcolors.RESET}'{key_from_dict}'{bcolors.FAIL}❌ does not exist in the available file types {bcolors.RESET}{bcolors.ORANGE}[Image, Video, Audio, Document, Archive]{bcolors.RESET}"
             )
         if (
             key_from_dict in FileSorter.extensions_dict.keys()
             and extension in FileSorter.extensions_dict[key_from_dict]
         ):
             raise ValueError(
-                f"Sorry but extension '{extension}' does exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
+                f"{bcolors.FAIL}'😞Sorry but extension {bcolors.RESET}''{extension}'❌ {bcolors.FAIL}'does exist in the {bcolors.RESET}''{key_from_dict}' {bcolors.ORANGE}'list.\nCurrent extensions in {bcolors.RESET}''{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
             )
 
 
@@ -157,14 +158,14 @@ def removing_extension(key_from_dict: str, extension: str):
     else:
         if not key_from_dict in FileSorter.extensions_dict.keys():
             print(
-                f"Sorry but such '{key_from_dict}' does not exist in the available file types [Image, Video, Audio, Document, Archive]"
+                f"{bcolors.FAIL}'😞Sorry but such {bcolors.RESET}''{key_from_dict}'{bcolors.FAIL}'❌ does not exist in the available file types '{bcolors.RESET}{bcolors.ORANGE}'[Image, Video, Audio, Document, Archive]{bcolors.RESET}'"
             )
         if (
             key_from_dict in FileSorter.extensions_dict.keys()
             and not extension in FileSorter.extensions_dict[key_from_dict]
         ):
             print(
-                f"Sorry but extension '{extension}' does not exist in the '{key_from_dict}' list.\nCurrent extensions in '{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
+                f"{bcolors.FAIL}'😞Sorry but extension '{bcolors.RESET}'{extension}'❌ {bcolors.FAIL}'does not exist in the '{bcolors.RESET}'{key_from_dict}' {bcolors.FAIL}'list.\nCurrent extensions in {bcolors.RESET}''{key_from_dict}': {FileSorter.extensions_dict[key_from_dict]}"
             )
 
 
@@ -173,16 +174,16 @@ def executing_command(responce_from_the_user: str):
     if responce_from_the_user == "file-sort":
         while tries > 0:
             try:
-                sorter = FileSorter(input("Please etter folder path: "))
+                sorter = FileSorter(input(f"{bcolors.BOLD}📂 Please etter folder path:✍️  {bcolors.RESET}"))
                 sorter.trash_sorting()
-                print("Files are successfully sorted!")
+                print(f"{bcolors.GREEN}📂 Files are successfully sorted!✅{bcolors.RESET}")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter folder path!\n"
+                    f"\n❌ {bcolors.FAIL}Exeption❗ - {bcolors.RESET}{ex}\n{bcolors.WARNING}🔄 You have one more last try to enter folder path!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}❌ Attempts ended, please try again later!{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -192,18 +193,18 @@ def executing_command(responce_from_the_user: str):
             try:
                 adding_extension(
                     input(
-                        "Please enter file type Image / Audio / Video / Document or Archive: "
+                        f"{bcolors.BOLD}📝 Please enter file type Image / Audio / Video / Document or Archive:✍️  {bcolors.RESET}"
                     ),
-                    input("Please enter any extension in the format '.***': "),
+                    input(f"{bcolors.BOLD}📝 Please enter any extension in the format '.***':✍️  {bcolors.RESET}"),
                 )
-                print("New extension successfully added!")
+                print(f"{bcolors.GREEN}📂 New extension successfully added!✅{bcolors.RESET}")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter file type!\n"
+                    f"\n❌ {bcolors.FAIL}Exeption❗ - {bcolors.RESET}{ex}\n{bcolors.WARNING}🔄 You have one more last try to enter file type!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n❌ {bcolors.RED}Attempts ended, please try again later!{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -213,22 +214,18 @@ def executing_command(responce_from_the_user: str):
             try:
                 removing_extension(
                     input(
-                        "Please enter file type Image / Audio / Video / Document or Archive: "
+                        f"{bcolors.BOLD}📝 Please enter file type Image / Audio / Video / Document or Archive:✍️  {bcolors.RESET}"
                     ),
-                    input("Please enter any extension in the format '.***': "),
+                    input(f"{bcolors.BOLD}📝 Please enter any extension in the format '.***':✍️  {bcolors.RESET}"),
                 )
-                print("Extension successfully removed!")
+                print(f"{bcolors.GREEN}📝 Extension successfully removed!✅{bcolors.RESET}")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter file type!\n"
+                    f"\n❌ {bcolors.FAIL}Exeption❗ - {bcolors.RESET}{ex}.\n{bcolors.WARNING}You have one more last try to enter file type!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n❌ {bcolors.RED}Attempts ended, please try again later!{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
-
-
-if __name__ == "__main__":
-    print(f"Hi this {__name__} module!")
