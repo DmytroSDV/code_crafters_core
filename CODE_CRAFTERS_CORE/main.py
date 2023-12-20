@@ -146,7 +146,7 @@ def get_input():
     return from_user
 
 
-def wait_for_input(timeout=10):
+def wait_for_input(timeout=60):
     result = None
     event = threading.Event()
 
@@ -214,7 +214,7 @@ def main():
 
     try:
         while 1:
-          user_input = wait_for_input()
+            user_input = wait_for_input()
 
             match user_input:
                 case "cli":
@@ -306,15 +306,15 @@ def main():
 
                 case "file-sort":
                     #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
-                    executing_command(get_input().lower())
+                    executing_command(user_input.lower())
 
                 case "file-extension-add":
                     #  "додавання додатково розширення для сортування"
-                    executing_command(get_input().lower())
+                    executing_command(user_input.lower())
 
                 case "file-extension-remove":
                     #  "видалення розширення із списку для сортування"
-                    executing_command(get_input().lower())
+                    executing_command(user_input.lower())
 
                 case "quit" | "exit" | "q":
                     print("Good bye!\n")
