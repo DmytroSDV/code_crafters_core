@@ -26,7 +26,7 @@ class Email:
         if re.match(self.pattern, email):
             self.email = email
         else:
-            raise ValueError(bcolors.RED + "Incorrect email! Please provide correct email." + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "❌ Incorrect email! Please provide correct email!😞" + bcolors.RESET)
 
     def __str__(self):
         return str(self.email)
@@ -38,7 +38,7 @@ class Name:
             self.name = name
         else:
             raise ValueError(
-                bcolors.RED + "Name. Name needs to contain not less than 3 symbols" + bcolors.RESET
+                bcolors.RED + "❌ Name. Name needs to contain not less than 3 symbols!😞" + bcolors.RESET
             )
 
     def __str__(self):
@@ -48,7 +48,7 @@ class Name:
 class Phone:
     def __init__(self, value):
         if not self.is_valid_phone(value):
-            raise ValueError(bcolors.RED + "Incorrect phone number format! Please provide correct phone number format." + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "❌ Incorrect phone number format! Please provide correct phone number format!😞" + bcolors.RESET)
         else:
             self.value = value
 
@@ -74,10 +74,10 @@ class Birthday:
         if re.match(date_pattern, val):
             date_split = val.split("-")
             if int(date_split[1]) > 12:
-                raise ValueError(bcolors.RED + "After year YYYY you must enter month (1-12)!" + bcolors.RESET)
+                raise ValueError(bcolors.FAIL + "❌ After year YYYY you must enter month (1-12)!😞" + bcolors.RESET)
             self._value = datetime.strptime(val, "%Y-%m-%d").date()
         else:
-            raise ValueError(bcolors.RED + "Invalid date format! Must be YYYY-MM-DD!" + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "❌ Invalid date format! Must be YYYY-MM-DD!😞" + bcolors.RESET)
 
     def __str__(self):
         return str(self.value)

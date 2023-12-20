@@ -186,7 +186,7 @@ class NoteBook(UserDict):
 
         if not self.data:
             print(f"{bcolors.WARNING}❌ Note list is empty!😞{bcolors.RESET}")
-            print(f"{bcolors.GREEN}🏷️ But you can add a note if you want ✏️ {bcolors.RESET}")
+            print(f"{bcolors.GREEN}🏷️  But you can add a note if you want ✏️ {bcolors.RESET}")
 
     def note_edit(self):
         tries = 2
@@ -271,7 +271,7 @@ class NoteBook(UserDict):
                     raise ValueError(bcolors.FAIL + "❌ Such note does not exist!😞" + bcolors.RESET)
 
                 print(
-                    f"{bcolors.UNDERLINE}📝 Available tags in the note 📝 {bcolors.RESET}{note_name} - ",
+                    f"{bcolors.BOLD}📝 Available tags in the note 📝 {bcolors.RESET}{note_name} - ",
                     " | ".join(tag.value for tag in self.data[note_name].tags),
                 )
                 old_tag = input(f"{bcolors.BOLD}📝 Please choose the tag that must be replaced:✍️  {bcolors.RESET}")
@@ -307,7 +307,7 @@ class NoteBook(UserDict):
                     raise ValueError(bcolors.FAIL + "❌ Such note does not exist!😞" + bcolors.RESET)
 
                 print(
-                    f"{bcolors.BOLD}🏷️ Available tags in the note 📝{bcolors.RESET} {note_name} - ",
+                    f"{bcolors.BOLD}🏷️  Available tags in the note 📝{bcolors.RESET} {note_name} - ",
                     " | ".join(tag.value for tag in self.data[note_name].tags),
                 )
                 old_tag = input(f"{bcolors.BOLD}📝 Please choose the tag that must be replaced:✍️  {bcolors.RESET}")
