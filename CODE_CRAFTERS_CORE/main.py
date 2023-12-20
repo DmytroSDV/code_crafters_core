@@ -1,7 +1,7 @@
 from CODE_CRAFTERS_CORE.AddressBook import *
 from CODE_CRAFTERS_CORE.NoteFeature import *
-from pathlib import Path
 from CODE_CRAFTERS_CORE.FileSorting import executing_command
+from pathlib import Path
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.application.current import get_app
@@ -272,7 +272,8 @@ def main():
 
             case "add" | "remove" | "edit":  # TODO
                 # "Авто сохранение"
-                book.save_to_file()
+                # book.save_to_file()
+                pass
 
             case _:
                 print(
