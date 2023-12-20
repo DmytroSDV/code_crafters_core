@@ -2,8 +2,8 @@ from collections import UserDict
 import pickle
 from emoji import emojize
 from tabulate import tabulate
-from RecordData import bcolors
-from CODE_CRAFTERS_CORE.AddressBook import bcolors
+from CODE_CRAFTERS_CORE.RecordData import bcolors
+
 
 class Field:
     def __init__(self, value):
