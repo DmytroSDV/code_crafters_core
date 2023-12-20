@@ -133,20 +133,56 @@ class NoteBook(UserDict):
 	
     def add_new_note(self):
         tries = 2
-        while tries > 0:
+        one_flag=False
+        two_flag=False
+        three_flag=False
+        while True:
             try:
-                note_name = input(f"{bcolors.BOLD}📝 Please enter Author name:✍️  {bcolors.RESET}")
-                note_data = input(f"{bcolors.BOLD}📝 Please type your note:✍️  {bcolors.RESET}")
-                tag_data = input(f"{bcolors.BOLD}📝 Please enter applicable tag:✍️  {bcolors.RESET}")
+                if not one_flag:
+                    while True:
+                        note_name = input(f"{bcolors.BOLD}📝 Please enter Author name:✍️  {bcolors.RESET}")
+                        if note_name=='q':
+                            return
+                        try:
+                            note_rec = NoteRec(note_name)
+                            one_flag=True
+                            break
+                        except ValueError as error:
+                            print(f"Error: {error}")
+                            print("Please enter Author name again or command 'q' for exit ")
+                    if not two_flag:
+                        while True:
+                            note_data = input(f"{bcolors.BOLD}📝 Please type your note:✍️  {bcolors.RESET}")
+                            if note_data=='q':
+                                return
+                            try:
+                                note_rec.add_note(note_data)
+                                two_flag=True
+                                break
+                            except ValueError as error:
+                                print(f"Error: {error}")
+                                print("Please type your note again or command 'q' for exit ")
+                    if not three_flag:
+                        while True:
+                            tag_data = input(f"{bcolors.BOLD}📝 Please enter applicable tag:✍️  {bcolors.RESET}")
+                            if tag_data=='q':
+                                return
+                            try:
+                                note_rec.add_tag(tag_data)
 
-                note_rec = NoteRec(note_name)
-                note_rec.add_note(note_data)
-                note_rec.add_tag(tag_data)
+                                three_flag=True
+                                break
+                            except ValueError as error:
+                                print(f"Error: {error}")
+                                print("Please enter applicable tag again or command 'q' for exit ")
+
+                #note_rec = NoteRec(note_name)
+                #note_rec.add_note(note_data)
+                #note_rec.add_tag(tag_data)
                 self.data[note_rec.name.value] = note_rec
                 print(f"{bcolors.GREEN}📋 New note successfully added!✅{bcolors.RESET}")
                 break
             except Exception as ex:
-                tries -= 1
                 message = (
                     f"\n{bcolors.FAIL}❌ Exeption❗ - {bcolors.RESET}{ex}\n{bcolors.WARNING}🔄 You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
