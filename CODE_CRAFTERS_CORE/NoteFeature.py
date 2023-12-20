@@ -336,15 +336,32 @@ class NoteBook(UserDict):
     @responce_visualization
     def tag_find_and_sort(self):
         tag_name = input(f"{bcolors.BOLD}🔍 Please enter tag name:✍️  {bcolors.RESET}")
-        temp_list = {}
+        match_dict = {}
+        similar_dict = {}
         for key in self.data:
             for tag in self.data[key].tags:
                 if tag.value == tag_name:
-                    temp_list[self.data[key].name] = self.data[key]
-        if not temp_list:
-            print(f"{bcolors.WARNING}❌ There are no notes with tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook!😞{bcolors.RESET}")
-        else:
-            return temp_list
+                    match_dict[self.data[key].name] = self.data[key]
+                if tag_name in tag.value:
+                    similar_dict[self.data[key].name] = self.data[key]
+        if match_dict:
+            print(f"{bcolors.GREEN}📋 We have a 100% match!✅{bcolors.RESET}")
+            return match_dict
+        elif not match_dict and similar_dict:
+            print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, but I found some similarity!{bcolors.RESET}")
+            return similar_dict
+        elif not match_dict and not similar_dict:
+            suggested_dict = {}
+            for key in self.data:
+                for word in self.data[key].note.value.split():   
+                    if word == tag_name: # this logic may be changed
+                        suggested_dict[self.data[key].name] = self.data[key]
+            if suggested_dict:
+                print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, but I found some similarity in note body!{bcolors.RESET}")
+                return suggested_dict
+            else:
+                return print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, as well as any similarity..😞{bcolors.RESET}")
+            
 
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
