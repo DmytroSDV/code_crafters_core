@@ -1,8 +1,8 @@
+from CODE_CRAFTERS_CORE.RecordData import bcolors
 from collections import UserDict
 import pickle
 from emoji import emojize
 from tabulate import tabulate
-from CODE_CRAFTERS_CORE.RecordData import bcolors
 
 
 class Field:
@@ -29,7 +29,7 @@ class AuthorName(Field):
             self._value = val
         else:
             raise ValueError(
-               bcolors.RED + "Invalid phone format! Must be not empty and started with the letter!" + bcolors.RESET
+               bcolors.FAIL + "Invalid phone format! Must be not empty and started with the letter!😞" + bcolors.RESET
             )
 
 
@@ -48,7 +48,7 @@ class Note(Field):
         if val:
             self._value = val
         else:
-            raise ValueError(bcolors.RED + "Invalid note format! Must be not empty!" + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "Invalid note format! Must be not empty!😞" + bcolors.RESET)
 
 
 class Tag(Field):
@@ -66,7 +66,7 @@ class Tag(Field):
         if val:
             self._value = val
         else:
-            raise ValueError(bcolors.RED + "Invalid note format! Must be not empty!" + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "Invalid note format! Must be not empty!😞" + bcolors.RESET)
 
 
 class NoteRec:
@@ -91,7 +91,7 @@ class NoteRec:
                 self.tags[ind] = Tag(new_tag)
                 check_flag = True
         if not check_flag:
-            raise ValueError(bcolors.RED + "Such tag is missed in the list!" + bcolors.RESET)
+            raise ValueError(bcolors.FAIL + "Such tag is missed in the list!😞" + bcolors.RESET)
 
     def add_note(self, note):
         if Note(note):
@@ -103,9 +103,9 @@ class NoteRec:
     def __str__(self):
         table = []
         headers = [
-            emojize(":id: Auhtor", language="alias"),
-            emojize(":bust_in_silhouette: Tags", language="alias"),
-            emojize(":notebook: Note", language="alias"),
+            emojize(f":id: {bcolors.BOLD} Auhtor {bcolors.RESET}", language="alias"),
+            emojize(f":bust_in_silhouette: {bcolors.BOLD} Tags {bcolors.RESET}", language="alias"),
+            emojize(f":notebook: {bcolors.BOLD} Note {bcolors.RESET}", language="alias"),
         ]
 
 
@@ -116,7 +116,7 @@ class NoteRec:
         ])
 
 
-        return f"{bcolors.P + tabulate(table, headers=headers, tablefmt='pretty') + bcolors.EN}"
+        return f"{tabulate(table, headers=headers, tablefmt='pretty')}"
 
 
 class NoteBook(UserDict):
@@ -124,22 +124,22 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
-                note_data = input("Please type your note: ")
-                tag_data = input("Please enter applicable tag: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
+                note_data = input(f"{bcolors.BOLD}Please type your note:✍️  {bcolors.RESET}")
+                tag_data = input(f"{bcolors.BOLD}Please enter applicable tag:✍️  {bcolors.RESET}")
 
                 note_rec = NoteRec(note_name)
                 note_rec.add_note(note_data)
                 note_rec.add_tag(tag_data)
                 self.data[note_rec.name.value] = note_rec
-                print("New note successfully added!")
+                print(f"{bcolors.GREEN}New note successfully added!{bcolors.RESET}✅")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -148,20 +148,20 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 for key in self.data:
                     if key == note_name:
                         print(self.data[note_name])
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
                 break
 
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -170,29 +170,29 @@ class NoteBook(UserDict):
         for key in self.data:
             print(self.data[key])
         if not self.data:
-            print("Note list is empty!")
+            print(f"{bcolors.WARNING}Note list is empty!😞{bcolors.RESET}")
 
     def note_edit(self):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
 
-                new_note = input("Please type new note: ")
+                new_note = input(f"{bcolors.BOLD}Please type new note:✍️  {bcolors.RESET}")
                 for key in self.data:
                     if key == note_name:
                         self.data[note_name].edit_note(new_note)
-                        print("Note successfully updated!")
+                        print(f"{bcolors.GREEN}Note successfully updated!✅{bcolors.RESET}")
                 break
 
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -201,22 +201,22 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
 
                 temp_dict = self.data.copy()
                 for key in temp_dict:
                     if key == note_name:
                         self.data.pop(note_name)
-                        print("Note successfully deleted!")
+                        print(f"{bcolors.GREEN}Note successfully deleted✅!{bcolors.RESET}")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -225,23 +225,23 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
 
-                additional_tag = input("Please type additional tag: ")
+                additional_tag = input(f"{bcolors.BOLD}Please type additional tag:✍️ {bcolors.RESET}")
                 for key in self.data:
                     if key == note_name:
                         self.data[note_name].add_tag(additional_tag)
-                        print("Tag successfully added!")
+                        print(f"{bcolors.GREEN}Tag successfully added✅!{bcolors.RESET}")
                 break
 
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RED}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -250,34 +250,34 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
 
                 print(
-                    f"Available tags in the note {note_name} - ",
+                    f"{bcolors.UNDERLINE}Available tags in the note {bcolors.RESET}{note_name} - ",
                     " | ".join(tag.value for tag in self.data[note_name].tags),
                 )
-                old_tag = input("Please choose the tag that must be replaced: ")
+                old_tag = input(f"{bcolors.BOLD}Please choose the tag that must be replaced: {bcolors.RESET}")
 
                 check_tag = any(
                     tag.value == old_tag for tag in self.data[note_name].tags
                 )
                 if not check_tag:
-                    raise ValueError(bcolors.RED + "Such tag does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such tag does not exist!😞" + bcolors.RESET)
 
-                additional_tag = input("Please type new tag: ")
+                additional_tag = input(f"{bcolors.BOLD}Please type new tag:✍️  {bcolors.RESET}")
                 for key in self.data:
                     if key == note_name:
                         self.data[note_name].edit_tag(old_tag, additional_tag)
-                        print("Tag successfully added!")
+                        print(f"{bcolors.GREEN}Tag successfully added!{bcolors.RESET}✅")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
@@ -286,46 +286,46 @@ class NoteBook(UserDict):
         tries = 2
         while tries > 0:
             try:
-                note_name = input("Please enter note name: ")
+                note_name = input(f"{bcolors.BOLD}Please enter note name:✍️  {bcolors.RESET}")
                 if not note_name in self.data:
-                    raise ValueError(bcolors.RED + "Such note does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such note does not exist!😞" + bcolors.RESET)
 
                 print(
-                    f"Available tags in the note {note_name} - ",
+                    f"{bcolors.UNDERLINE}Available tags in the note{bcolors.RESET} {note_name} - ",
                     " | ".join(tag.value for tag in self.data[note_name].tags),
                 )
-                old_tag = input("Please choose the tag that must be replaced: ")
+                old_tag = input(f"{bcolors.BOLD}Please choose the tag that must be replaced:✍️  {bcolors.RESET}")
 
                 check_tag = any(
                     tag.value == old_tag for tag in self.data[note_name].tags
                 )
                 if not check_tag:
-                    raise ValueError(bcolors.RED + "Such tag does not exist!" + bcolors.RESET)
+                    raise ValueError(bcolors.FAIL + "Such tag does not exist!😞" + bcolors.RESET)
 
                 for key in self.data:
                     if key == note_name:
                         self.data[note_name].remove_tag(old_tag)
-                        print("Tag successfully removed!")
+                        print(f"{bcolors.GREEN}Tag successfully removed!{bcolors.RESET}✅")
                 break
             except Exception as ex:
                 tries -= 1
                 message = (
-                    f"\nExeption - {ex}.\nYou have one more last try to enter data!\n"
+                    f"\n{bcolors.FAIL}Exeption - {bcolors.RESET}{ex}\n{bcolors.WARNING}You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
-                    else f"\n{ex}\nAttempts ended, please try again later!\n"
+                    else f"\n{ex}\n{bcolors.RED}Attempts ended, please try again later!😞{bcolors.RESET}\n"
                 )
                 print(message)
                 continue
 
     def tag_find_and_sort(self):
-        tag_name = input("Please enter tag name: ")
+        tag_name = input(f"{bcolors.BOLD}Please enter tag name:✍️  {bcolors.RESET}")
         temp_list = []
         for key in self.data:
             for tag in self.data[key].tags:
                 if tag.value == tag_name:
                     temp_list.append(self.data[key])
         if temp_list == []:
-            print(f"There are no notes with tag '{tag_name}' in the notebook")
+            print(f"{bcolors.WARNING}There are no notes with tag{bcolors.RESET} '{tag_name}' {bcolors.WARNING}in the notebook{bcolors.RESET}")
         else:
             for item in temp_list:
                 print(item)
@@ -334,7 +334,7 @@ class NoteBook(UserDict):
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
-            print(f"Notes added to: {file_path}")
+            print(f"{bcolors.GREEN}Notes added to:{bcolors.RESET} {file_path}")
 
     def note_read_from_file(self, file_path: str):
         with open(file_path, "rb") as file:
