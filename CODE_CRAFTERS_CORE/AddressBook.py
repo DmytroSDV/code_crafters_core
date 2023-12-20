@@ -14,20 +14,58 @@ class AddressBook(UserList):
 
     def add_contacts(self):
         attempts = 0
-       
-        
+        flag_name = False
+        flag_phone = False
+        flag_birthday = False
+        flag_email = False
+
         while attempts < 3:
             try:
-                name = input("Please enter name: ")
-                record = Record(name)
-                phone = input("Please enter phone: ")                   
-                record.add_phone(phone)                   
-                birthday = input("Please enter birthday: ")
-                email = input("Please enter email: ")
-                record.add_email(email)
+                if not flag_name:
+                    name = input("Please enter name: ")
+                    record = Record(name)
+                    flag_name = True
 
-                if birthday:
-                    record.birthday = Birthday(birthday)
+                if not flag_phone:
+                    while True:
+                        print('Exsamples of the input: (+380) or (380) or (10 digits) ')
+                        phone = input("Please enter phone: ")
+                        if phone=='q':
+                            return
+                        try:
+                            record.add_phone(phone)
+                            flag_phone = True
+                            break
+                        except ValueError as error:
+                            print(f"Error: {error}")
+                            print("Please enter the phone number again or command 'q' for exit ")
+
+                if not flag_birthday:
+                    while True:
+                        birthday = input("Please enter birthday with the help of YYYY-MM-DD: ")
+                        if birthday=='q':
+                            return
+                        if birthday:
+                            try:
+                                record.birthday = Birthday(birthday)
+                                flag_birthday = True
+                                break
+                            except ValueError as error:
+                                print(f"Error: {error}")
+                                print("Please enter the birthday again or command 'q' for exit ")
+
+                if not flag_email:
+                    while True:
+                        email = input("Please enter email : ")
+                        if email=='q':
+                            return
+                        try:
+                            record.add_email(email)
+                            flag_email = True
+                            break
+                        except ValueError as error:
+                            print(f"Error: {error}")
+                            print("Please enter the email again or command 'q' for exit ")
 
                 contacts = {
                     "id": self.id,
@@ -42,10 +80,14 @@ class AddressBook(UserList):
                 break
             except Exception as e:
                 attempts += 1
-                
                 print(f"Error: {e}")
                 print("Please enter the information again.")
 
+
+                flag_name = False
+                flag_phone = False
+                flag_birthday = False
+                flag_email = False
     def birthdays(self, days):
         result = []
         for contact in self.data:
@@ -130,11 +172,16 @@ class AddressBook(UserList):
 
     def del_contact(self):
         name = input("Please enter name: ")
+        contacts=[]
         for contact in self.data:
             if str(contact["name"]) == name:
+                contacts.append(contact)
                 self.data.remove(contact)
-            else:
-                print("Contact isn't found")
+        if contacts:
+            for i in contacts:
+                print(f"contact {i['name'].name} was deleted")
+        else:
+            print('Contact is not found')
 
     def add_email(self):
         user_input = input("Please enter name: ")

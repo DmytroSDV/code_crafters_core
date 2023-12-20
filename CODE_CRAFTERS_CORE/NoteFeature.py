@@ -133,20 +133,56 @@ class NoteBook(UserDict):
 	
     def add_new_note(self):
         tries = 2
-        while tries > 0:
+        one_flag=False
+        two_flag=False
+        three_flag=False
+        while True:
             try:
-                note_name = input(f"{bcolors.BOLD}📝 Please enter Author name:✍️  {bcolors.RESET}")
-                note_data = input(f"{bcolors.BOLD}📝 Please type your note:✍️  {bcolors.RESET}")
-                tag_data = input(f"{bcolors.BOLD}📝 Please enter applicable tag:✍️  {bcolors.RESET}")
+                if not one_flag:
+                    while True:
+                        note_name = input(f"{bcolors.BOLD}📝 Please enter Author name:✍️  {bcolors.RESET}")
+                        if note_name=='q':
+                            return
+                        try:
+                            note_rec = NoteRec(note_name)
+                            one_flag=True
+                            break
+                        except ValueError as error:
+                            print(f"Error: {error}")
+                            print("Please enter Author name again or command 'q' for exit ")
+                    if not two_flag:
+                        while True:
+                            note_data = input(f"{bcolors.BOLD}📝 Please type your note:✍️  {bcolors.RESET}")
+                            if note_data=='q':
+                                return
+                            try:
+                                note_rec.add_note(note_data)
+                                two_flag=True
+                                break
+                            except ValueError as error:
+                                print(f"Error: {error}")
+                                print("Please type your note again or command 'q' for exit ")
+                    if not three_flag:
+                        while True:
+                            tag_data = input(f"{bcolors.BOLD}📝 Please enter applicable tag:✍️  {bcolors.RESET}")
+                            if tag_data=='q':
+                                return
+                            try:
+                                note_rec.add_tag(tag_data)
 
-                note_rec = NoteRec(note_name)
-                note_rec.add_note(note_data)
-                note_rec.add_tag(tag_data)
+                                three_flag=True
+                                break
+                            except ValueError as error:
+                                print(f"Error: {error}")
+                                print("Please enter applicable tag again or command 'q' for exit ")
+
+                #note_rec = NoteRec(note_name)
+                #note_rec.add_note(note_data)
+                #note_rec.add_tag(tag_data)
                 self.data[note_rec.name.value] = note_rec
                 print(f"{bcolors.GREEN}📋 New note successfully added!✅{bcolors.RESET}")
                 break
             except Exception as ex:
-                tries -= 1
                 message = (
                     f"\n{bcolors.FAIL}❌ Exeption❗ - {bcolors.RESET}{ex}\n{bcolors.WARNING}🔄 You have one more last try to enter data!{bcolors.RESET}\n"
                     if tries > 0
@@ -336,15 +372,32 @@ class NoteBook(UserDict):
     @responce_visualization
     def tag_find_and_sort(self):
         tag_name = input(f"{bcolors.BOLD}🔍 Please enter tag name:✍️  {bcolors.RESET}")
-        temp_list = {}
+        match_dict = {}
+        similar_dict = {}
         for key in self.data:
             for tag in self.data[key].tags:
                 if tag.value == tag_name:
-                    temp_list[self.data[key].name] = self.data[key]
-        if not temp_list:
-            print(f"{bcolors.WARNING}❌ There are no notes with tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook!😞{bcolors.RESET}")
-        else:
-            return temp_list
+                    match_dict[self.data[key].name] = self.data[key]
+                if tag_name in tag.value:
+                    similar_dict[self.data[key].name] = self.data[key]
+        if match_dict:
+            print(f"{bcolors.GREEN}📋 We have a 100% match!✅{bcolors.RESET}")
+            return match_dict
+        elif not match_dict and similar_dict:
+            print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, but I found some similarity!{bcolors.RESET}")
+            return similar_dict
+        elif not match_dict and not similar_dict:
+            suggested_dict = {}
+            for key in self.data:
+                for word in self.data[key].note.value.split():   
+                    if word == tag_name: # this logic may be changed
+                        suggested_dict[self.data[key].name] = self.data[key]
+            if suggested_dict:
+                print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, but I found some similarity in note body!{bcolors.RESET}")
+                return suggested_dict
+            else:
+                return print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, as well as any similarity..😞{bcolors.RESET}")
+            
 
     def note_save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
