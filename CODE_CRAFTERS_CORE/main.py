@@ -1,10 +1,27 @@
 from CODE_CRAFTERS_CORE.AddressBook import *
 from CODE_CRAFTERS_CORE.NoteFeature import *
 from CODE_CRAFTERS_CORE.FileSorting import executing_command
+from CODE_CRAFTERS_CORE.RecordData import bcolors
 from pathlib import Path
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.application.current import get_app
+import random
+import threading
+from prompt_toolkit.styles import Style
+
+
+COLOR_COMMAND_GREEN = 'bg:#ansigreen #ffffff'
+STYLE = Style.from_dict({"prompt": COLOR_COMMAND_GREEN})
+
+    
+HI_COMMANDS = [
+    "🎩✨Abracadabra! Enter the magic team:",
+    "Let me know what you want to do: ",
+    "Waiting for your team to start work: ",
+    "Welcome to the amazing world of opportunities! Waiting for your team to start.",
+    "Welcome to the world of opportunities! Waiting for your magic team.",
+]
 
 
 COMMAND_EXPLAIN = WordCompleter(
@@ -119,13 +136,51 @@ def available_commands():
     )
 
 
+def get_input():
+    from_user = prompt(
+        random.choice(HI_COMMANDS),
+        completer=COMMAND_EXPLAIN,
+        pre_run=pre_run,
+        style=STYLE,
+    )
+    return from_user
+
+
+def wait_for_input(timeout=10):
+    result = None
+    event = threading.Event()
+
+    def input_thread():
+        nonlocal result
+        result = get_input()
+        event.set()
+
+    thread = threading.Thread(target=input_thread, daemon=True)
+    thread.start()
+
+    # Создаем таймер для обновления времени
+    timer = threading.Timer(timeout, event.set)
+    timer.start()
+
+    # Ждем ввода или завершения таймера
+    thread.join(timeout=timeout)
+
+    # Отменяем таймер, если пользователь ввел команду
+    timer.cancel()
+
+    if thread.is_alive():
+        print("\n⏰ You are here, I'm waiting for your command")
+
+    return result
+
+
 def main():
     file_name = "database.bin"
     note_name = "notebase.bin"
     file_database = Path(file_name)
     note_database = Path(note_name)
 
-    #####
+    # Deserialization adddressbook
     if file_database.exists() and file_database.is_file():
         with open(file_database, "rb") as fh:
             check_content = fh.read()
@@ -140,7 +195,7 @@ def main():
             pass
         book = AddressBook()
 
-    #####
+    # Deserialization notebook
     if note_database.exists() and note_database.is_file():
         with open(note_database, "rb") as fh:
             check_content = fh.read()
@@ -155,15 +210,13 @@ def main():
         note = NoteBook()
 
 
+    print("Hello! My name is Bot Jul. How can I help you today?")
+
     try:
         while 1:
-            from_user = prompt(
-                "Command prompt: ",
-                completer=COMMAND_EXPLAIN,
-                pre_run=pre_run,
-            )
+          user_input = wait_for_input()
 
-            match from_user.lower():
+            match user_input:
                 case "cli":
                     print(available_commands())
 
@@ -253,15 +306,15 @@ def main():
 
                 case "file-sort":
                     #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
-                    executing_command(from_user.lower())
+                    executing_command(get_input().lower())
 
                 case "file-extension-add":
                     #  "додавання додатково розширення для сортування"
-                    executing_command(from_user.lower())
+                    executing_command(get_input().lower())
 
                 case "file-extension-remove":
                     #  "видалення розширення із списку для сортування"
-                    executing_command(from_user.lower())
+                    executing_command(get_input().lower())
 
                 case "quit" | "exit" | "q":
                     print("Good bye!\n")
@@ -272,21 +325,15 @@ def main():
                     note_serialization.note_save_to_file(note_name, note)
                     break
 
-                case "add" | "remove" | "edit":  # TODO
-                    # "Авто сохранение"
-                    # book.save_to_file()
-                    pass
-
-                case "error": # delete in final version
-                    try:
-                        test = 10 + "why"
-                    except Exception as ex:
-                        raise ValueError
-
                 case _:
-                    print(
-                        f"Such command '{from_user}' does not exist! To saw available commands please type 'cli'."
-                    )
+                  error_messages = [
+                    "Oh! You seem to have introduced the wrong team. Please try again!",
+                    "Oops! This is not like the right team. Let's try again",
+                    "Error: The team is not recognized. Try again.",
+                    "😮 Hmm, I don't understand this team. Let's try something else."
+                  ]
+                  print(random.choice(error_messages))
+
                 
     except Exception as ex:
         print("Unnexpected error!\n")
@@ -303,6 +350,7 @@ def main():
         serialization.save_to_file(file_name, book)
         note_serialization = NoteBook()
         note_serialization.note_save_to_file(note_name, note)
+
 
 
 
