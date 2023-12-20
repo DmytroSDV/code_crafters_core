@@ -108,7 +108,7 @@ class AddressBook(UserList):
                 emojize(":birthday_cake: День рождения", language="alias"),
                 emojize(":e-mail: Email", language="alias"),
             ]
-
+            print(tabulate(table, headers=headers,tablefmt='pretty'))
     def remove_phone(self):
         name = input("Please enter name: ")
         for contacts in self.data:
