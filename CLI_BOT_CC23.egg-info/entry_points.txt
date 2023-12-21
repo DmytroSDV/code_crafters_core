@@ -1,2 +1,0 @@
-[console_scripts]
-codecrafters = CODE_CRAFTERS_CORE.main:main
