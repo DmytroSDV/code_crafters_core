@@ -1,0 +1,4 @@
+emoji
+tabulate
+unidecode
+prompt_toolkit

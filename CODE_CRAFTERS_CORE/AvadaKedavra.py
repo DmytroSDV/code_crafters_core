@@ -8,7 +8,7 @@ def shutdown_with_countdown():
 
     def force_avada():
         print("Good Bye!")
-        subprocess.run(["shutdown", "/s", "/t", "3"])
+        # subprocess.run(["shutdown", "/s", "/t", "3"])
 
     def on_closing():
         background_thread = threading.Thread(target=force_avada)
@@ -16,7 +16,7 @@ def shutdown_with_countdown():
         background_thread.start()
         messagebox.showwarning(
             "Error", "You cant interrupt Avada Kedavra!\nAnd thats why i will do it emmediately!\n5 seconds left until the completion of the spell - Good Bye!")
-        subprocess.run(["shutdown", "/s", "/t", "5"])
+        # subprocess.run(["shutdown", "/s", "/t", "5"])
 
     window = tk.Tk()
     window.title("Avada Kedavra casting!")
@@ -44,7 +44,7 @@ def shutdown_with_countdown():
     label.pack(pady=20)
     label1.pack(pady=20)
 
-    for sec in range(5, 0, -1):
+    for sec in range(15, 0, -1):
         try:
             label.config(
                 text=f"{sec} seconds left until Avada Kedavra completion!")
@@ -54,5 +54,5 @@ def shutdown_with_countdown():
         window.after(1000)
 
     window.destroy()
-    subprocess.run(["shutdown", "/s", "/t", "5"])
+    # subprocess.run(["shutdown", "/s", "/t", "5"])
 

@@ -1,0 +1,17 @@
+README.md
+setup.py
+CLI_BOT_CC23.egg-info/PKG-INFO
+CLI_BOT_CC23.egg-info/SOURCES.txt
+CLI_BOT_CC23.egg-info/dependency_links.txt
+CLI_BOT_CC23.egg-info/entry_points.txt
+CLI_BOT_CC23.egg-info/requires.txt
+CLI_BOT_CC23.egg-info/top_level.txt
+CODE_CRAFTERS_CORE/AddressBook.py
+CODE_CRAFTERS_CORE/AvadaKedavra.py
+CODE_CRAFTERS_CORE/FileSorting.py
+CODE_CRAFTERS_CORE/NoteFeature.py
+CODE_CRAFTERS_CORE/Record.py
+CODE_CRAFTERS_CORE/RecordData.py
+CODE_CRAFTERS_CORE/__init__.py
+CODE_CRAFTERS_CORE/database.bin
+CODE_CRAFTERS_CORE/main.py
