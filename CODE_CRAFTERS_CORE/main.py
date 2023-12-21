@@ -145,10 +145,10 @@ def pre_run():
         b.start_completion(select_first=False)
 
 def one_command_vizualization(user_input, lists: tuple):
-
-    for com_list, ex_com in zip(lists[0], lists[1]):  
-        if com_list.__contains__(user_input):
-            return f"{com_list} {ex_com}"
+    if user_input:
+        for com_list, ex_com in zip(lists[0], lists[1]):  
+            if com_list.__contains__(user_input):
+                return f"{com_list} {ex_com}"
 
 def available_commands(command = None):
 
@@ -613,4 +613,9 @@ def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("The script is interrupted by the user!")
+
+
