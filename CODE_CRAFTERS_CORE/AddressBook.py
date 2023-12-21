@@ -25,6 +25,10 @@ class AddressBook(UserList):
                     name = input(f"{bcolors.BOLD}📝 Please enter your name:✍️  {bcolors.RESET}")
                     record = Record(name)
                     flag_name = True
+                    for contact in self.data:
+                        if contact["name"].name == name:
+                            print(f"{bcolors.RESET}👤Contact with this name already exists, try to enter another name!😞 {bcolors.RESET}")
+                            return
 
                 if not flag_phone:
                     while True:
@@ -99,39 +103,41 @@ class AddressBook(UserList):
         print(result)
 
     def search_contact(self):
-        name = input(emojize(f"{bcolors.BOLD}🔍 Enter your name:✍️  {bcolors.RESET}"))
-        found_contacts = []
-        
-        headers = [
-                emojize(f":id:{bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
-                emojize(":bust_in_silhouette: Name", language="alias"),
-                emojize(":telephone_receiver: Phone", language="alias"),
-                emojize(":birthday_cake: Birthday", language="alias"),
-                emojize(":e-mail: Email", language="alias"),
-        ]
-        
-        for contact in self.data:
-            if contact["name"].name.lower() == name.lower():
-                found_contacts.append(contact)
+        name = input(f"{bcolors.BOLD}🔍 Please enter the name of the contact you want to find:✍️  {bcolors.RESET}")
+        matching_contacts = [contact for contact in self.data if contact["name"].name.lower() == name.lower()]
 
-        if found_contacts:
-            for found_contact in found_contacts:
-                print(emojize(f"{bcolors.GREEN}🎉 Find contact with name '{name}':🤗 {bcolors.BOLD}"))
-                print(
-                    {
-                        emojize("🆔 ID"): found_contact["id"],
-                        emojize("👤 Name"): str(found_contact["name"]),
-                        emojize("📞 Phone") :[
-                            str(phone) for phone in found_contact["phone"]
-                        ],
-                        emojize("🎂 Birthday"): str(found_contact["birthday"]),
-                        emojize("📧 Email"): str(found_contact["email"]),
-                    }
-                )
-            print(tabulate(found_contacts, headers=headers,tablefmt='pretty'))  
-        else:
-            print(emojize(f"{bcolors.WARNING}😞 Contact with name '{name}' does not found.{bcolors.RESET}"))
+        if not matching_contacts:
+            print(f"{bcolors.WARNING}😞 No contacts found with the name 👤 '{name}'{bcolors.RESET}")
+            print(emojize(f"{bcolors.WARNING}😞 Contact with name '{name}' does not found❌ {bcolors.RESET}"))
             print(f"{bcolors.GREEN}🤗 But, you can add a contact if you want ✏️ {bcolors.RESET}")
+            return
+
+        print(f"{bcolors.GREEN}🔍 Search results for '{name}':🚀  {bcolors.RESET}")
+        print(f"{bcolors.GREEN}🎉 Find contact with name🤗  {name}{bcolors.RESET}")
+        table = []
+        for contact in matching_contacts:
+            phone_numbers = ", ".join(str(phone) for phone in contact.get("phone", []))
+            emails = ", ".join(str(email) for email in contact.get("email", []))
+            table.append([
+                str(contact["id"]),
+                str(contact["name"]),
+                phone_numbers,
+                str(contact.get("birthday", "")),
+                emails,
+            ])
+
+        headers = [
+            emojize(f":id: {bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
+            emojize(f":bust_in_silhouette: {bcolors.BLUE}Name{bcolors.RESET}", language="alias"),
+            emojize(f":telephone_receiver: {bcolors.BLUE}Phone{bcolors.RESET}", language="alias"),
+            emojize(f":birthday_cake: {bcolors.BLUE}Birthday{bcolors.RESET}", language="alias"),
+            emojize(f":e-mail: {bcolors.BLUE}Email{bcolors.RESET}", language="alias"),
+        ]
+
+        print(tabulate(table, headers=headers, tablefmt='pretty'))
+
+
+
 
     def show_all_contacts(self):
         if not self.data:
@@ -156,18 +162,18 @@ class AddressBook(UserList):
                     ]
                 )
             headers = [
-                emojize(f":id:{bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
-                emojize(":bust_in_silhouette: Name", language="alias"),
-                emojize(":telephone_receiver: Phone", language="alias"),
-                emojize(":birthday_cake: Birthday", language="alias"),
-                emojize(":e-mail: Email", language="alias"),
+                emojize(f":id: {bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
+                emojize(f":bust_in_silhouette: {bcolors.BLUE}Name{bcolors.RESET}", language="alias"),
+                emojize(f":telephone_receiver: {bcolors.BLUE}Phone{bcolors.RESET}", language="alias"),
+                emojize(f":birthday_cake: {bcolors.BLUE}Birthday{bcolors.RESET}", language="alias"),
+                emojize(f":e-mail: {bcolors.BLUE}Email{bcolors.RESET}", language="alias"),
             ]
-            print(tabulate(table, headers=headers,tablefmt='pretty'))
+            print(tabulate(table, headers=headers, tablefmt='pretty'))
     def remove_phone(self):
-        name = input("Please enter name: ")
+        name = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.BLUE}")
         for contacts in self.data:
             if str(contacts["name"]) == name:
-                phone_to_remove = input("Please enter the phone number to remove: ")
+                phone_to_remove = input(f"{bcolors.BOLD}🔍 Please enter the phone number to remove:✍️  {bcolors.RESET}")
                 phone_object_to_remove = None
 
                 for phone_object in contacts["phone"]:
@@ -177,13 +183,14 @@ class AddressBook(UserList):
 
                 if phone_object_to_remove is not None:
                     contacts["phone"].remove(phone_object_to_remove)
+                    print(f"{bcolors.GREEN}📞 The phone number '{name}' was successfully deleted!✅{bcolors.RESET}")
                 else:
-                    print("Phone number not found.")
+                    print(f"{bcolors.FAIL}📞 Phone number '{phone_to_remove}' not found❌ {bcolors.RESET}")
             else:
-                print("Contact isn't here!")
+                print(f"{bcolors.FAIL}👤 Contact '{name}' isn't here!❌ {bcolors.RESET}")
 
     def del_contact(self):
-        name = input("Please enter name: ")
+        name = input(f"{bcolors.BOLD }📝 Please enter name:✍️  {bcolors.RESET}")
         contacts=[]
         for contact in self.data:
             if str(contact["name"]) == name:
@@ -191,23 +198,26 @@ class AddressBook(UserList):
                 self.data.remove(contact)
         if contacts:
             for i in contacts:
-                print(f"contact {i['name'].name} was deleted")
+                print(f"{bcolors.GREEN}👤 Contact '{i['name'].name}' was deleted!✅{bcolors.RESET}")
         else:
-            print('Contact is not found')
+            print(f"{bcolors.FAIL}🔍 Contact '{name}' is not found! 😞{bcolors.RESET}")
 
     def add_email(self):
-        user_input = input("Please enter name: ")
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                email = input("Please enter email: ")
+                email = input(f"{bcolors.BOLD}📧 Please enter email:✍️  {bcolors.RESET}")
                 contact["email"].append(email)
+                print(f"{bcolors.GREEN}📧 Email '{email}' Successfully added!✅{bcolors.RESET}")
+            else:
+                print(f"{bcolors.FAIL}👤 Contact isn't here!😞{bcolors.RESET}")
     
     def edit_email(self):
-        user_input = input("Please enter name: ")  
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                edit_to_email = input("Enter the email to edit📧: ")
-                new_email = input("Enter the email📧: ")
+                edit_to_email = input(f"{bcolors.BOLD}🔍 Enter the email to edit: {bcolors.RESET}")
+                new_email = input(f"{bcolors.BOLD}📧 Enter new email:✍️  {bcolors.RESET}")
                 email_object_to_edit = None
                 
                 for i, email_object in enumerate(contact["email"]):
@@ -216,22 +226,22 @@ class AddressBook(UserList):
                         break
                 
                 if email_object_to_edit is not None:
-                    print(f"Old email: {email_object_to_edit}")
-                    print(f"Successfully changed to {new_email}")
+                    print(f"{bcolors.BOLD}📧 Old email: '{email_object_to_edit}{bcolors.RESET}'")
+                    print(f"{bcolors.GREEN}📧 Email successfully changed to '{new_email}'✅{bcolors.RESET}")
                                  
                     contact["email"].remove(email_object_to_edit)            
                     contact["email"].append(new_email)
                     
-                    print("Email edited successfully✅")
+                    print(f"{bcolors.GREEN}📧 Email edited '{edit_to_email}' successfully!✅{bcolors.RESET}")
                 else:
-                    print("Error editing email: email not found❌")
+                    print(f"{bcolors.FAIL}❌ Error editing email '{edit_to_email}': email not found!❌{bcolors.RESET}")
             
     
     def remove_email(self):
-        user_input = input("Please enter name: ")
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                email_to_remove = input("Please enter the email to remove: ")
+                email_to_remove = input(f"{bcolors.BOLD}🔍 Please enter the email to remove:✍️  {bcolors.RESET}")
                 email_object_to_remove = None
                 
                 for email_object in contact["email"]:
@@ -241,24 +251,28 @@ class AddressBook(UserList):
 
                 if email_object_to_remove is not None:
                     contact["email"].remove(email_object_to_remove)
+                    print(f"{bcolors.GREEN}📧 Email '{email_to_remove}' successfully delete!✅{bcolors.RESET}")
                 else:
-                    print("Email not found.")
+                    print(f"{bcolors.FAIL}❌ Email '{email_to_remove}' not found.😞{bcolors.RESET}")
             else:
-                print("Contact isn't here!")
+                print(f"{bcolors.FAIL}❌ Contact '{email_to_remove}' isn't here!😞{bcolors.RESET}")
         
     def add_phone(self):
-        user_input = input("Please enter name: ")
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                phone = input("Please enter phone📞: ")
+                phone = input(f"{bcolors.BOLD}🔍 Please enter phone📞: {bcolors.RESET}")
                 contact["phone"].append(phone)
+                print(f"{bcolors.GREEN}📞 Phone number '{phone}' successfully added!✅{bcolors.RESET}")
+            else:
+                print(f"{bcolors.FAIL}❌ Contact '{contact['name']}' isn't here!😞{bcolors.RESET}")
                 
     def edit_phone(self):
-        user_input = input("Please enter name: ")  
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                edit_to_phone_number = input("Enter the phone number to edit📞: ")
-                new_phone_number = input("Enter the new phone number📞: ")
+                edit_to_phone_number = input(f"{bcolors.BOLD}📞 Enter the phone number to edit:✍️  {bcolors.RESET}")
+                new_phone_number = input(f"{bcolors.BOLD}📞 Enter the new phone number:✍️  {bcolors.RESET}")
                 phone_number_object_to_edit = None
                 
                 for i, phone_number_object in enumerate(contact["phone"]):
@@ -267,15 +281,15 @@ class AddressBook(UserList):
                         break
                 
                 if phone_number_object_to_edit is not None:
-                    print(f"Old number: {phone_number_object_to_edit}")
-                    print(f"Successfully changed to {new_phone_number}")
+                    print(f"{bcolors.WARNING}📞 Old phone number: '{phone_number_object_to_edit}'{bcolors.RESET}")
+                    print(f"{bcolors.GREEN}📞 Successfully changed to '{new_phone_number}'✅{bcolors.RESET}")
                                  
                     contact["phone"].remove(phone_number_object_to_edit)            
                     contact["phone"].append(new_phone_number)
                     
-                    print("Phone number edited successfully✅")
+                    print(f"{bcolors.GREEN}📞 Phone number '{new_phone_number}' edited successfully!✅{bcolors.RESET}")
                 else:
-                    print("Error editing phone number: Number not found❌")
+                    print(f"{bcolors.FAIL}📞 Error editing phone number '{new_phone_number}': Phone Number not found❌{bcolors.RESET}")
             
                     
 
@@ -290,15 +304,15 @@ class AddressBook(UserList):
             return pickle.load(file)
 
     def edit_birthday(self):  # редагування birthday існуючого контакту
-        name = input('Enter name of contact: ')
+        name = input(f'{bcolors.BOLD}🔍 Enter name of contact:✍️  {bcolors.RESET}')
         for contact in self.data:
             if contact['name'].name == name and contact['birthday']:
                 new_birthday = input('Enter new birthday: ')
                 contact['birthday'] = Birthday(new_birthday)
-                print('Birthday was changed')
+                print(f'{bcolors.GREEN}🎂 Birthday "{new_birthday}" was changed!✅{bcolors.RESET}')
 
     def show_contacts_birthdays(self):
-        days = int(input('Enter days: '))
+        days = int(input(f"{bcolors.BOLD}🤗 Enter days:✍️  {bcolors.RESET}"))
         contacts = []
 
         for contact in self.data:
@@ -310,7 +324,7 @@ class AddressBook(UserList):
 
             if contacts:
                 for uzer in contacts:
-                    print(f'Name: {uzer["name"].name}, Birthday: {uzer["birthday"].value}')
+                    print(f'{bcolors.GREEN}Name: {uzer["name"].name}, Birthday:🎂  {uzer["birthday"].value}{bcolors.RESET}')
             if not contact:
-                print('there are no birthdays in this number of day')
+                print(f'{bcolors.WARNING}🎂 There are no birthdays in this number of day!{bcolors.RESET}')
                 
