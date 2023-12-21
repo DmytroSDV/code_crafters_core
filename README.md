@@ -1,7 +1,9 @@
 #19.12.2023
 #first release version 0.0.1
 
-Hi this is command bot developed by `Code Crafters` team. 
+Hi this is command bot Jul developed by `Code Crafters` team. 
+- User can choose language for visualization and understanding commands en | ru | ua.
+
 
 All available commands that bot can do are:
 

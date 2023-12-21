@@ -14,6 +14,6 @@ setup(
     packages=find_namespace_packages(),
     data_files=[("CODE_CRAFTERS_CORE", ['CODE_CRAFTERS_CORE\database.bin', 'CODE_CRAFTERS_CORE\notebase.bin'])],
     include_package_data = True,
-    install_requires=['emoji', 'tabulate', 'unidecode', 'prompt_toolkit'],
+    install_requires=['emoji', 'tabulate', 'unidecode', 'prompt_toolkit', "tkinter"],
     entry_points={'console_scripts': ['codecrafters = CODE_CRAFTERS_CORE.main:main']}
 )
