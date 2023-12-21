@@ -20,15 +20,16 @@ class AddressBook(UserList):
 
         while attempts < 3:
             try:
-                if not flag_name:
-                    print(f"{bcolors.ORANGE}📝 Please enter your name that contains more than two characters✅ {bcolors.RESET}")
-                    name = input(f"{bcolors.BOLD}📝 Please enter your name:✍️  {bcolors.RESET}")
+                while not flag_name:
+                    print(f"{bcolors.ORANGE}:memo: Please enter your name that contains more than two characters:white_check_mark: {bcolors.RESET}")
+                    name = input(f"{bcolors.BOLD}:memo: Please enter your name::writing_hand:  {bcolors.RESET}")
                     record = Record(name)
-                    flag_name = True
                     for contact in self.data:
                         if contact["name"].name == name:
-                            print(f"{bcolors.RESET}👤Contact with this name already exists, try to enter another name!😞 {bcolors.RESET}")
-                            return
+                            print(f"{bcolors.RESET}:bust_in_silhouette:Contact with this name already exists, try to enter another name!:disappointed: {bcolors.RESET}")
+                            break
+                    else:
+                        flag_name = True
 
                 if not flag_phone:
                     while True:
