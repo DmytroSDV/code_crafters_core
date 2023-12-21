@@ -58,7 +58,7 @@ class Record:
 
         except AttributeError:
             print(
-                f"{bcolors.WARNING}❌ Contact name do not have birthday record!😞{bcolors.RESET}"
+                f"{bcolors.FAIL}❌ Contact name do not have birthday record❗ 😞{bcolors.RESET}"
             )
 
     def days_to_date(self, days, old_date):

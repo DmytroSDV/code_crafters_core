@@ -1,10 +1,9 @@
 from CODE_CRAFTERS_CORE.Record import Record
 from CODE_CRAFTERS_CORE.RecordData import *
 from collections import UserList
-import pickle
-from datetime import datetime,timedelta
-from emoji import emojize
 from tabulate import tabulate
+from emoji import emojize
+import pickle
 
 
 class AddressBook(UserList):
@@ -22,28 +21,30 @@ class AddressBook(UserList):
         while attempts < 3:
             try:
                 if not flag_name:
-                    name = input("Please enter name: ")
+                    print(f"{bcolors.ORANGE}📝 Please enter your name that contains more than two characters✅ {bcolors.RESET}")
+                    name = input(f"{bcolors.BOLD}📝 Please enter your name:✍️  {bcolors.RESET}")
                     record = Record(name)
                     flag_name = True
 
                 if not flag_phone:
                     while True:
-                        print('Exsamples of the input: (+380) or (380) or (10 digits) ')
-                        phone = input("Please enter phone: ")
-                        if phone=='q':
+                        print(f"{bcolors.ORANGE}📞 Exsamples of the input: (+380) or (380) or (10 digits)✅ {bcolors.RESET}")
+                        phone = input(f"{bcolors.BOLD}📞 Please enter phone:✍️  {bcolors.RESET}")
+                        if phone in ['q', 'back', 'exit', 'quit']:
                             return
                         try:
                             record.add_phone(phone)
                             flag_phone = True
                             break
                         except ValueError as error:
-                            print(f"Error: {error}")
-                            print("Please enter the phone number again or command 'q' for exit ")
+                            print(f"{bcolors.FAIL}❌ Error❗ - {error}{bcolors.RESET}")
+                            print(f"{bcolors.WARNING}📞 Please enter the phone number again or command ['q', 'back', 'exit', 'quit'] for exit menu:✍️ {bcolors.RESET}")
 
                 if not flag_birthday:
                     while True:
-                        birthday = input("Please enter birthday with the help of YYYY-MM-DD: ")
-                        if birthday=='q':
+                        print(f"{bcolors.ORANGE}🎂 Please enter birthday in format (YYYY-MM-DD):✍️  {bcolors.RESET}")
+                        birthday = input(f"{bcolors.BOLD}🎂 Please enter birthday:✍️  {bcolors.RESET}")
+                        if birthday in ['q', 'back', 'exit', 'quit']:
                             return
                         if birthday:
                             try:
@@ -51,21 +52,22 @@ class AddressBook(UserList):
                                 flag_birthday = True
                                 break
                             except ValueError as error:
-                                print(f"Error: {error}")
-                                print("Please enter the birthday again or command 'q' for exit ")
+                                print(f"{bcolors.FAIL}❌ Error❗ - {bcolors.RESET}{error}")
+                                print(f"{bcolors.WARNING}🎂 Please enter the birthday again or command ['q', 'back', 'exit', 'quit'] for exit menu:✍️  {bcolors.RESET}")
 
                 if not flag_email:
                     while True:
-                        email = input("Please enter email : ")
-                        if email=='q':
+                        print(f"{bcolors.ORANGE}📧 Please enter email in format (example@example.com):✍️  {bcolors.RESET}")
+                        email = input(f"{bcolors.BOLD}📧 Please enter email:✍️  {bcolors.RESET}")
+                        if email in ['q', 'back', 'exit', 'quit']:
                             return
                         try:
                             record.add_email(email)
                             flag_email = True
                             break
                         except ValueError as error:
-                            print(f"Error: {error}")
-                            print("Please enter the email again or command 'q' for exit ")
+                            print(f"{bcolors.FAIL}❌ Error❗ - {bcolors.RESET}{error}")
+                            print(f"{bcolors.WARNING}📧 Please enter the email again or command ['q', 'back', 'exit', 'quit'] for exit menu:✍️ {bcolors.RESET}")
 
                 contacts = {
                     "id": self.id,
@@ -76,12 +78,12 @@ class AddressBook(UserList):
                 }
                 self.data.append(contacts)
                 self.id += 1
-                print("Contact added successfully!✅")
+                print(f"{bcolors.GREEN}👤 Contact added successfully!✅{bcolors.RESET}")
                 break
             except Exception as e:
                 attempts += 1
-                print(f"Error: {e}")
-                print("Please enter the information again.")
+                print(f"{bcolors.FAIL}Error❗ - {bcolors.RESET}{e}")
+                print(f"{bcolors.WARNING}🔄 Please enter the information again!🔄 {bcolors.RESET}")
 
 
                 flag_name = False
@@ -97,16 +99,24 @@ class AddressBook(UserList):
         print(result)
 
     def search_contact(self):
-        name = input(emojize("🔍 Enter your name:"))
+        name = input(emojize(f"{bcolors.BOLD}🔍 Enter your name:✍️  {bcolors.RESET}"))
         found_contacts = []
-
+        
+        headers = [
+                emojize(f":id:{bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
+                emojize(":bust_in_silhouette: Name", language="alias"),
+                emojize(":telephone_receiver: Phone", language="alias"),
+                emojize(":birthday_cake: Birthday", language="alias"),
+                emojize(":e-mail: Email", language="alias"),
+        ]
+        
         for contact in self.data:
             if contact["name"].name.lower() == name.lower():
                 found_contacts.append(contact)
 
         if found_contacts:
             for found_contact in found_contacts:
-                print(emojize(f"🎉 Find contact with name '{name}':"))
+                print(emojize(f"{bcolors.GREEN}🎉 Find contact with name '{name}':🤗 {bcolors.BOLD}"))
                 print(
                     {
                         emojize("🆔 ID"): found_contact["id"],
@@ -118,16 +128,18 @@ class AddressBook(UserList):
                         emojize("📧 Email"): str(found_contact["email"]),
                     }
                 )
-                print(emojize("✨---------------------------------------✨"))
+            print(tabulate(found_contacts, headers=headers,tablefmt='pretty'))  
         else:
-            print(emojize(f"😞 Contact with name '{name}' does not found."))
+            print(emojize(f"{bcolors.WARNING}😞 Contact with name '{name}' does not found.{bcolors.RESET}"))
+            print(f"{bcolors.GREEN}🤗 But, you can add a contact if you want ✏️ {bcolors.RESET}")
 
     def show_all_contacts(self):
         if not self.data:
-            print("Addressbook is empty")
+            print(f"{bcolors.WARNING}📋 Addressbook is empty😞 {bcolors.RESET}")
+            print(f"{bcolors.GREEN}🤗 But, you can add a contact if you want ✏️ {bcolors.RESET}")
             return
         else:
-            print("All contacts in book:")
+            print(f"{bcolors.GREEN}📖 All contacts in book:🚀 {bcolors.RESET}")
             table = []
             for contact in self.data:
                 phone_numbers = ", ".join(
