@@ -97,7 +97,7 @@ class AddressBook(UserList):
         print(result)
 
     def search_contact(self):
-        name = input(emojize("🔍 Введите имя:"))
+        name = input(emojize("🔍 Enter your name:"))
         found_contacts = []
 
         for contact in self.data:
@@ -106,28 +106,28 @@ class AddressBook(UserList):
 
         if found_contacts:
             for found_contact in found_contacts:
-                print(emojize(f"🎉 Найден контакт с именем '{name}':"))
+                print(emojize(f"🎉 Find contact with name '{name}':"))
                 print(
                     {
                         emojize("🆔 ID"): found_contact["id"],
-                        emojize("👤 Имя"): str(found_contact["name"]),
-                        emojize("📞 Телефон") :[
+                        emojize("👤 Name"): str(found_contact["name"]),
+                        emojize("📞 Phone") :[
                             str(phone) for phone in found_contact["phone"]
                         ],
-                        emojize("🎂 День рождения"): str(found_contact["birthday"]),
+                        emojize("🎂 Birthday"): str(found_contact["birthday"]),
                         emojize("📧 Email"): str(found_contact["email"]),
                     }
                 )
                 print(emojize("✨---------------------------------------✨"))
         else:
-            print(emojize(f"😞 Контакт с именем '{name}' не найден."))
+            print(emojize(f"😞 Contact with name '{name}' does not found."))
 
     def show_all_contacts(self):
         if not self.data:
-            print("Книга контактов пуста.")
+            print("Addressbook is empty")
             return
         else:
-            print("Все контакты в книге:")
+            print("All contacts in book:")
             table = []
             for contact in self.data:
                 phone_numbers = ", ".join(
@@ -145,9 +145,9 @@ class AddressBook(UserList):
                 )
             headers = [
                 emojize(f":id:{bcolors.BLUE}ID{bcolors.RESET}", language="alias"),
-                emojize(":bust_in_silhouette: Имя", language="alias"),
-                emojize(":telephone_receiver: Телефон", language="alias"),
-                emojize(":birthday_cake: День рождения", language="alias"),
+                emojize(":bust_in_silhouette: Name", language="alias"),
+                emojize(":telephone_receiver: Phone", language="alias"),
+                emojize(":birthday_cake: Birthday", language="alias"),
                 emojize(":e-mail: Email", language="alias"),
             ]
             print(tabulate(table, headers=headers,tablefmt='pretty'))
@@ -270,10 +270,11 @@ class AddressBook(UserList):
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
-            print(f"Contacts added to: {file_path}")
+            print(f"{bcolors.GREEN}💾 Contacts added to:{bcolors.RESET} 📂 {bcolors.UNDERLINE}{file_path}{bcolors.RESET}✅")
 
     def read_from_file(self, file_path: str):
         with open(file_path, "rb") as file:
+            print(f"{bcolors.GREEN}📖 Reading contacts from:{bcolors.RESET} 📂 {bcolors.UNDERLINE}{file_path}{bcolors.RESET}✅")
             return pickle.load(file)
 
     def edit_birthday(self):  # редагування birthday існуючого контакту
