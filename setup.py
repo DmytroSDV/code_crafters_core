@@ -1,5 +1,6 @@
 from setuptools import setup, find_namespace_packages
 
+
 setup(
     name='CLI_BOT_CC23',
     version='0.0.1',
