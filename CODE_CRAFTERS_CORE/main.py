@@ -231,8 +231,8 @@ def available_commands(command = None):
             bcolors.BLUE + "редагування тегів існуючої нотатки" + bcolors.RESET,
             bcolors.BLUE + "видалення тегів з існуючої нотатки" + bcolors.RESET,
             bcolors.BLUE + "пошук та сортування нотаток за тегами" + bcolors.RESET,
-            bcolors.BLUE + "показати всірозширення" + bcolors.RESET,
             bcolors.BLUE + "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)." + bcolors.RESET,
+            bcolors.BLUE + "показати всі розширення" + bcolors.RESET,
             bcolors.BLUE + "додавання додатково розширення для сортування" + bcolors.RESET,
             bcolors.BLUE + "видалення розширення із списку для сортування" + bcolors.RESET,
             bcolors.BLUE + "вихід з програми" + bcolors.RESET,
@@ -417,7 +417,7 @@ def timer_function():
     shutdown_with_countdown()
 
 
-def wait_for_input(timeout=20, timeout2=1000):
+def wait_for_input(timeout=120, timeout2=1000):
     loop = asyncio.get_event_loop()
     result = None
     global timer_thread
