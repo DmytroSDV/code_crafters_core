@@ -128,6 +128,19 @@ class FileSorter:
 
         return trash_sorting_recursion(self.path_to_folder)
 
+def show_extension():
+    img = FileSorter.extensions_dict["Image"]
+    vid = FileSorter.extensions_dict["Video"]
+    doc = FileSorter.extensions_dict["Document"]
+    aud = FileSorter.extensions_dict["Audio"]
+    arch = FileSorter.extensions_dict["Audio"]
+    print(f"{bcolors.BLUE}Image: {bcolors.RESET}", f"{bcolors.WARNING} {img} {bcolors.RESET}")
+    print(f"{bcolors.BLUE}Video: {bcolors.RESET}", f"{bcolors.WARNING} {vid} {bcolors.RESET}")
+    print(f"{bcolors.BLUE}Document: {bcolors.RESET}", f"{bcolors.WARNING} {doc} {bcolors.RESET}")
+    print(f"{bcolors.BLUE}Audio: {bcolors.RESET}", f"{bcolors.WARNING} {aud} {bcolors.RESET}")
+    print(f"{bcolors.BLUE}Archive: {bcolors.RESET}", f"{bcolors.WARNING} {arch} {bcolors.RESET}")
+    return ""
+
 
 def adding_extension(key_from_dict: str, extension: str):
     if (
@@ -229,3 +242,8 @@ def executing_command(responce_from_the_user: str):
                 )
                 print(message)
                 continue
+            
+    elif responce_from_the_user == "file-extension-show" or responce_from_the_user == "показать все разширения" or responce_from_the_user == "показати всі розширення":
+        show_extension()
+                    
+    

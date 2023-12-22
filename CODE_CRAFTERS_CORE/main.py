@@ -81,6 +81,7 @@ COMMAND_EXPLAIN_RU = WordCompleter(
         "удалить тег",  # удалить тег
         "найти и отсортировать по тегам",  # найти и отсортировать по тегам
         "сортировать файлы",  # сортировать файлы
+        "показать все разширения",  # сортировать файлы
         "добавить расширение",  # добавить расширение для сортировки
         "удалить расширение",  # удалить расширение из списка сортировки
         "выход",  # выход
@@ -113,6 +114,7 @@ COMMAND_EXPLAIN_EN = WordCompleter(
         "tag-remove",
         "tag-find-sort",
         "file-sort",
+        "file-extension-show",
         "file-extension-add",
         "file-extension-remove",
         "quit",
@@ -147,6 +149,7 @@ COMMAND_EXPLAIN_UA = WordCompleter(
         "видалити тег",
         "знайти та сортувати по тегам",
         "відсортувати файли",
+        "показати всі розширення",
         "додати розширення файла",
         "видалити розширення файла", 
         "до зустрічі",  
@@ -196,6 +199,7 @@ def available_commands(command = None):
             bcolors.ORANGE + "tag-remove" + bcolors.RESET,
             bcolors.ORANGE + "tag-find-sort" + bcolors.RESET,
             bcolors.ORANGE + "file-sort" + bcolors.RESET,
+            bcolors.ORANGE + "file-extension-show" + bcolors.RESET,
             bcolors.ORANGE + "file-extension-add" + bcolors.RESET,
             bcolors.ORANGE + "file-extension-remove" + bcolors.RESET,
             bcolors.ORANGE + "quit" + bcolors.RESET,
@@ -227,6 +231,7 @@ def available_commands(command = None):
             bcolors.BLUE + "редагування тегів існуючої нотатки" + bcolors.RESET,
             bcolors.BLUE + "видалення тегів з існуючої нотатки" + bcolors.RESET,
             bcolors.BLUE + "пошук та сортування нотаток за тегами" + bcolors.RESET,
+            bcolors.BLUE + "показати всірозширення" + bcolors.RESET,
             bcolors.BLUE + "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)." + bcolors.RESET,
             bcolors.BLUE + "додавання додатково розширення для сортування" + bcolors.RESET,
             bcolors.BLUE + "видалення розширення із списку для сортування" + bcolors.RESET,
@@ -261,6 +266,7 @@ def available_commands(command = None):
             bcolors.ORANGE + "удалить тег" + bcolors.RESET,
             bcolors.ORANGE + "найти и отсортировать по тегам" + bcolors.RESET,
             bcolors.ORANGE + "сортировать файлы" + bcolors.RESET,
+            bcolors.ORANGE + "показать все разширения" + bcolors.RESET,
             bcolors.ORANGE + "добавить расширение" + bcolors.RESET,
             bcolors.ORANGE + "удалить расширение" + bcolors.RESET,
             bcolors.ORANGE + "выход" + bcolors.RESET,
@@ -291,6 +297,7 @@ def available_commands(command = None):
             bcolors.BLUE + "удаление тегов из существующей записи" + bcolors.RESET,
             bcolors.BLUE + "поиск и сортировка заметок по тегам" + bcolors.RESET,
             bcolors.BLUE + "Сортировать файлы в указанной папке по категориям (изображения, документы, видео и т.д.)." + bcolors.RESET,
+            bcolors.BLUE + "показать все доступные расширения для сортировки." + bcolors.RESET,
             bcolors.BLUE + "добавление дополнительного расширения для сортировки" + bcolors.RESET,
             bcolors.BLUE + "удаление расширения из списка для сортировки" + bcolors.RESET,
             bcolors.BLUE + "виход" + bcolors.RESET,
@@ -322,6 +329,7 @@ def available_commands(command = None):
             bcolors.ORANGE + "видалити тег" + bcolors.RESET,
             bcolors.ORANGE + "знайти та сортувати по тегам" + bcolors.RESET,
             bcolors.ORANGE + "відсортувати файли" + bcolors.RESET,
+            bcolors.ORANGE + "показати всі розширення" + bcolors.RESET,
             bcolors.ORANGE + "додати розширення файла" + bcolors.RESET,
             bcolors.ORANGE + "видалити розширення файла" + bcolors.RESET,
             bcolors.ORANGE + "до зустрічі" + bcolors.RESET,
@@ -352,6 +360,7 @@ def available_commands(command = None):
             bcolors.BLUE + "видалення тегів з існуючої нотатки" + bcolors.RESET,
             bcolors.BLUE + "пошук та сортування нотаток за тегами" + bcolors.RESET,
             bcolors.BLUE + "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)." + bcolors.RESET,
+            bcolors.BLUE + "показати всі наявні розширеннядля сортування" + bcolors.RESET,
             bcolors.BLUE + "додавання додатково розширення для сортування" + bcolors.RESET,
             bcolors.BLUE + "видалення розширення із списку для сортування" + bcolors.RESET,
             bcolors.BLUE + "бот іде відпочивати" + bcolors.RESET,
@@ -371,13 +380,15 @@ async def get_input():
     if language == "ru":
         HI_COMMANDS = HI_COMMANDS_RU
         COMMAND_EXPLAIN = COMMAND_EXPLAIN_RU
+        print(f"{bcolors.PINK}🤖 Я здесь, чтобы сделать твой день немного ярче!\n🌞 Не стесняйтесь задавать вопросы или просто общаться. Вместе мы можем сделать этот день незабываемым! 🎉🎈{bcolors.RESET}")
     elif language == "en":
         HI_COMMANDS = HI_COMMANDS_EN
         COMMAND_EXPLAIN = COMMAND_EXPLAIN_EN
+        print(f"{bcolors.PINK}🤖 I'm here to make your day a little brighter!\n🌞 Feel free to ask questions or just communicate. Together we can make this day unforgettable!{bcolors.RESET}")
     elif language == "ua" :
         HI_COMMANDS = HI_COMMANDS_UA
         COMMAND_EXPLAIN = COMMAND_EXPLAIN_UA
-            
+        print(f"{bcolors.PINK}🤖 Я тут, щоб зробити ваш день трохи яскравішим!\n🌞 Не соромтеся задавати питання або просто спілкуватися. Разом ми можемо зробити цей день незабутнім!{bcolors.RESET}")   
     try:
         session = PromptSession()
         result = await session.prompt_async(
@@ -406,7 +417,7 @@ def timer_function():
     shutdown_with_countdown()
 
 
-def wait_for_input(timeout=60, timeout2=1000):
+def wait_for_input(timeout=20, timeout2=1000):
     loop = asyncio.get_event_loop()
     result = None
     global timer_thread
@@ -470,7 +481,7 @@ def main():
             pass
         note = NoteBook()
 
-    print(f"{bcolors.PINK}👋 Hello! My name is Bot Jul. How can I help you today?🤖 {bcolors.RESET}")
+    print(f"{bcolors.PINK}👋 Hello! My name is Bot Jul. Please choose the language and we will begin 🤖 {bcolors.RESET}")
 
     try:
         while 1:
@@ -579,6 +590,10 @@ def main():
                     note.tag_find_and_sort()
 
                 case "file-sort" | "сортировать файлы" | "відсортувати файли":
+                    #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
+                    executing_command(user_input.lower())
+                
+                case "file-extension-show" | "показать все разширения" | "показати всі розширення":
                     #  "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)."
                     executing_command(user_input.lower())
 
