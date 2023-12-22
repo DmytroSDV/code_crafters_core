@@ -18,27 +18,42 @@ COLOR_COMMAND_GREEN = "bg:#ansigreen #ffffff"
 STYLE = Style.from_dict({"prompt": COLOR_COMMAND_GREEN})
 
 HI_COMMANDS_RU = [
-    "🎩✨Абракадабра! Введите волшебную команду:",
-    "Скажите мне, что вы хотите сделать: ",
-    "Жду вашу команду для начала работы: ",
-    "Добро пожаловать в удивительный мир возможностей! Ожидаю вашей команды для начала.",
-    "Добро пожаловать в мир возможностей! Ожидаю вашей волшебной команды.",
+    "🎩✨Абракадабра! Введите волшебную команду:✍️  ",
+    "👋Скажите мне, что вы хотите сделать:✍️  ",
+    "👋 Привет! Чем я могу помочь? Введите команду:✍️  "
+    "💫Жду вашу команду для начала работы:✍️  ",
+    "👋Добро пожаловать в удивительный мир возможностей! Ожидаю вашей команды для начала:✍️  ",
+    "🌈Добро пожаловать в мир возможностей! Ожидаю вашей волшебной команды:✍️  ",
+    "🌈 Доброго времени суток! Ожидаю вашей команды:✍️ ",
+    "🌈 Привет! Какие чудеса сегодня?:✍️  ",
 ]
 
 HI_COMMANDS_EN = [
-    "🎩✨Abracadabra! Enter the magic command:",
-    "Let me know what you want to do: ",
-    "Waiting for your command to start work: ",
-    "Welcome to the amazing world of opportunities! Waiting for your command to start.",
-    "Welcome to the world of opportunities! Waiting for your magic command.",
+    "🎩✨Abracadabra! Enter the magic command:✍️  ",
+    "👋Let me know what you want to do:✍️  ",
+    "🎩✨ Tell me what you want to do: ",
+    "💫Waiting for your command to start work:✍️  ",
+    "👋Welcome to the amazing world of opportunities! Waiting for your command to start:✍️  ",
+    "🌈Welcome to the world of opportunities! Waiting for your magic command:✍️  ",
+    "🎩✨ Welcome to the magical world of possibilities! Enter the magic command:✍️ ",
+    "👋 Hello! How can I help? Enter a command:✍️  ",
+    "🌈 Good day! Waiting for your command:✍️  ",
+    "💫 Greetings! Enter a command:✍️  ",
+    "👋 Hello! What wonders do you seek today?:✍️  ",
 ]
 
 HI_COMMANDS_UA = [
-    "🎩✨Абракадабра! Введіть магічну команду:",
-    "Будьте добрі скажіть, що я маю зробити: ",
-    "Чекаю на ваші накази: ",
-    "Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу команду для початку.",
-    "Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу чарівну команду.",
+    "🎩✨Абракадабра! Введіть магічну команду:✍️  ",
+    "👋Будьте добрі скажіть, що я маю зробити:✍️  ",
+    "💫Чекаю на ваші накази:✍️  ",
+    "👋Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу команду для початку:✍️  ",
+    "🌈Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу чарівну команду:✍️  ",
+    "🎩✨ Абракадабра! Введіть чарівну команду:✍️  ",
+    "🎩✨ Скажіть мені, що ви хочете зробити:✍️  ",
+    "👋 Привіт! Як я можу допомогти? Введіть команду:✍️  ",
+    "🌈 Доброго дня! Очікую вашої команди:✍️  ",
+    "💫 Вітаю вас! Введіть команду:✍️  ",
+    "🕰 Привіт! Які чудеса сьогодні?:✍️  ",
 ]
 
 COMMAND_EXPLAIN_RU = WordCompleter(
@@ -365,7 +380,7 @@ async def get_input():
         timer_thread.cancel()
         return result
     except KeyboardInterrupt:
-        print("KeyBoard interrupt error, EXITING!\n")
+        print(f"\n{bcolors.FAIL}❌ KeyBoard interrupt error, EXITING❗{bcolors.RESET}\n")
         serialization = AddressBook()
         serialization.save_to_file(file_name, book)
         note_serialization = NoteBook()
@@ -377,8 +392,8 @@ async def get_input():
 
 
 def timer_function():
-    print("\n:alarm_clock: Time's up! You didn't enter any command.")
-    print("I'm offended, you're not using me, so I run the Awadakedabra command and I shut down you forever!")
+    print(f"\n{bcolors.WARNING}⏰ Time's up! You didn't enter any command💀 {bcolors.RESET}")
+    print(f"{bcolors.WARNING}😄 I'm offended, you're not using me, so I run the Awadakedabra command and I shut down you forever!💀 {bcolors.RESET}")
     shutdown_with_countdown()
 
 
@@ -398,7 +413,7 @@ def wait_for_input(timeout=60, timeout2=1000):
     try:
         loop.run_until_complete(asyncio.wait_for(wait_input(), timeout=timeout))
     except asyncio.TimeoutError:
-        print("\n:alarm_clock: You are here, I'm waiting for your command")
+        print(f"{bcolors.ORANGE}\n:⏰: You are here, I'm waiting for your command{bcolors.RESET}")
     
     return result
 
@@ -445,14 +460,14 @@ def main():
             pass
         note = NoteBook()
 
-    print("Hello! My name is Bot Jul. How can I help you today?")
+    print(f"{bcolors.PINK}👋 Hello! My name is Bot Jul. How can I help you today?🤖 {bcolors.RESET}")
 
     try:
-        language = input("Please choose a language (en/ru/ua): ")
+        language = input(f"{bcolors.BOLD}🫠  Please choose a language (en/:ru:/ua): {bcolors.RESET}")
         if not language in ("en", "ru", 'ua'):
             while 1:
-                print("Wrong language format entered!\nPlease enter en | ru or ua to choose language:")
-                language = input("Please choose a language (en/ru/ua): ")
+                print(f"{bcolors.BOLD}🙃  Wrong language format entered!\nPlease enter en | ru or ua to choose language:{bcolors.RESET}")
+                language = input(f"{bcolors.BOLD}🫠  Please choose a language (en/ru/ua): {bcolors.RESET}")
                 if language in ("en", "ru", 'ua'):
                     break
         while 1:
@@ -569,24 +584,24 @@ def main():
                 case _:
                     if language == "en":
                         error_messages = [
-                            "Oh! You seem to have introduced the wrong command. Please try again!",
-                            "Oops! This is not like the right command. Let's try again",
-                            "Error: The command is not recognized. Try again.",
+                            "😔Oh! You seem to have introduced the wrong command. Please try again!",
+                            "😔Oops! This is not like the right command. Let's try again",
+                            "😟Error: The command is not recognized. Try again.",
                             "😮 Hmm, I don't understand this command. Let's try something else."
                         ]
                     elif language == "ru":
                         error_messages = [
-                            "Ой! Похоже, вы ввели неправильную команду. Пожалуйста, попробуйте снова!",
-                            "Упс! Это не похоже на правильную команду. Давайте попробуем еще раз",
-                            "Ошибка: Команда не распознана. Попробуйте еще раз.",
+                            "🙃Ой! Похоже, вы ввели неправильную команду. Пожалуйста, попробуйте снова!",
+                            "😟Упс! Это не похоже на правильную команду. Давайте попробуем еще раз",
+                            "😯Ошибка: Команда не распознана. Попробуйте еще раз.",
                             "😮 Хмм, я не понимаю эту команду. Давайте попробуем что-то еще.,"
                         ]
                     elif language == "ua":
                         error_messages = [
-                            "Ой! Начебто Ви ввели хибну команду. Будь ласка спробуйте ыще раз!",
-                            "Упс! Це не схоже правельну команду. Давайте спробуэмо ыще раз!",
-                            "Помилка: Незрозумыла команда. Спробуйте іще раз.",
-                            "😮 Хмм, я не розумію цю команду. давайте спробуємо щось інше!"
+                            "😔Ой! Начебто Ви ввели хибну команду. Будь ласка спробуйте ыще раз!",
+                            "😯Упс! Це не схоже правельну команду. Давайте спробуэмо ыще раз!",
+                            "😔Помилка: Незрозумыла команда. Спробуйте іще раз.",
+                            "😔😮 Хмм, я не розумію цю команду. давайте спробуємо щось інше!"
                         ]
                     
                     print(random.choice(error_messages))
@@ -596,7 +611,7 @@ def main():
                             
 
     except Exception as ex:
-        print("Unnexpected error!\n")
+        print(f"{bcolors.FAIL}\n❌ Unnexpected error!{bcolors.RESET}")
         print(ex)
         serialization = AddressBook()
         serialization.save_to_file(file_name, book)
@@ -604,7 +619,7 @@ def main():
         note_serialization.note_save_to_file(note_name, note)
 
     except KeyboardInterrupt:
-        print("KeyBoard interrupt error, EXITING!\n")
+        print(f"{bcolors.FAIL}\n❌ KeyBoard interrupt error, EXITING!\n{bcolors.RESET}")
 
         serialization = AddressBook()
         serialization.save_to_file(file_name, book)
@@ -616,6 +631,6 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("The script is interrupted by the user!")
+        print(f"{bcolors.BLUE}The script is interrupted by the user!{bcolors.RESET}")
 
 
