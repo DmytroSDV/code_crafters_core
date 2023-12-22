@@ -374,12 +374,12 @@ class NoteBook(UserDict):
         for key in self.data:
             for tag in self.data[key].tags:
                 if tag.value == tag_name:
-                    match_dict[self.data[key].name] = self.data[key]
+                    match_dict[self.data[key].name] = self.data[key].sort()
                 if tag_name in tag.value:
                     similar_dict[self.data[key].name] = self.data[key]
         if match_dict:
             print(f"{bcolors.GREEN}📋 We have a 100% match!✅{bcolors.RESET}")
-            return match_dict
+            return match_dict.sort()
         elif not match_dict and similar_dict:
             print(f"{bcolors.WARNING}❌ There are no notes with exact tag 📋 {bcolors.RESET}{bcolors.UNDERLINE}'{tag_name}'{bcolors.RESET}{bcolors.WARNING} in the notebook, but I found some similarity❗ 🔄{bcolors.RESET}")
             return similar_dict
