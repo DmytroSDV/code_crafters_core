@@ -175,9 +175,14 @@ class AddressBook(UserList):
             ]
             print(tabulate(table, headers=headers, tablefmt='pretty'))
     def remove_phone(self):
-        name = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.BLUE}")
+        name = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contacts in self.data:
             if str(contacts["name"]) == name:
+                phone_numbers = ", ".join(
+                    str(phone) for phone in contacts.get("phone", [])
+                )
+                print(f"{bcolors.WARNING}Select the phone you want to delete{bcolors.RESET}")
+                print(f"{bcolors.BLUE}{phone_numbers}{bcolors.WARNING}")
                 phone_to_remove = input(f"{bcolors.BOLD}🔍 Please enter the phone number to remove:✍️  {bcolors.RESET}")
                 phone_object_to_remove = None
 
@@ -221,6 +226,11 @@ class AddressBook(UserList):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                email_list = ", ".join(
+                    str(email) for email in contact.get("email", [])
+                )
+                print(f"{bcolors.WARNING}Select the emails you want to edit{bcolors.RESET}")
+                print(f"{bcolors.BLUE}{email_list}{bcolors.WARNING}")
                 edit_to_email = input(f"{bcolors.BOLD}🔍 Enter the email to edit: {bcolors.RESET}")
                 new_email = input(f"{bcolors.BOLD}📧 Enter new email:✍️  {bcolors.RESET}")
                 email_object_to_edit = None
@@ -246,6 +256,11 @@ class AddressBook(UserList):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                email_list = ", ".join(
+                    str(email) for email in contact.get("email", [])
+                )
+                print(f"{bcolors.WARNING}Select the emails you want to delete{bcolors.RESET}")
+                print(f"{bcolors.BLUE}{email_list}{bcolors.WARNING}")
                 email_to_remove = input(f"{bcolors.BOLD}🔍 Please enter the email to remove:✍️  {bcolors.RESET}")
                 email_object_to_remove = None
                 
@@ -266,6 +281,7 @@ class AddressBook(UserList):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                
                 phone = input(f"{bcolors.BOLD}🔍 Please enter phone📞: {bcolors.RESET}")
                 contact["phone"].append(phone)
                 print(f"{bcolors.GREEN}📞 Phone number '{phone}' successfully added!✅{bcolors.RESET}")
@@ -276,6 +292,11 @@ class AddressBook(UserList):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                phone_numbers = ", ".join(
+                    str(phone) for phone in contact.get("phone", [])
+                )
+                print(f"{bcolors.WARNING}Select the phone you want to edit{bcolors.RESET}")
+                print(f"{bcolors.BLUE}{phone_numbers}{bcolors.WARNING}")
                 edit_to_phone_number = input(f"{bcolors.BOLD}📞 Enter the phone number to edit:✍️  {bcolors.RESET}")
                 new_phone_number = input(f"{bcolors.BOLD}📞 Enter the new phone number:✍️  {bcolors.RESET}")
                 phone_number_object_to_edit = None
@@ -317,7 +338,11 @@ class AddressBook(UserList):
                 print(f'{bcolors.GREEN}🎂 Birthday "{new_birthday}" was changed!✅{bcolors.RESET}')
 
     def show_contacts_birthdays(self):
-        days = int(input(f"{bcolors.BOLD}🤗 Enter days:✍️  {bcolors.RESET}"))
+        try:
+            days = int(input(f"{bcolors.BOLD}🤗 Enter days:✍️  {bcolors.RESET}"))
+        except Exception as e:
+            print(f"{bcolors.WARNING}Enter the number of days by number and not string!{bcolors.RESET}")
+            
         contacts = []
 
         for contact in self.data:
@@ -327,9 +352,9 @@ class AddressBook(UserList):
                 if record.days_to_date(days, birthday_date):
                     contacts.append(contact)
 
-            if contacts:
-                for uzer in contacts:
-                    print(f'{bcolors.GREEN}Name: {uzer["name"].name}, Birthday:🎂  {uzer["birthday"].value}{bcolors.RESET}')
-            if not contact:
-                print(f'{bcolors.WARNING}🎂 There are no birthdays in this number of day!{bcolors.RESET}')
+        if contacts:
+            for uzer in contacts:
+                print(f'{bcolors.GREEN}Name: {uzer["name"].name}, Birthday:🎂  {uzer["birthday"].value}{bcolors.RESET}')
+        else:
+            print(f'{bcolors.WARNING}🎂 There are no birthdays in this number of day!{bcolors.RESET}')
                 

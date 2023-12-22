@@ -7,7 +7,6 @@ from CODE_CRAFTERS_CORE.AddressBook import *
 from CODE_CRAFTERS_CORE.NoteFeature import *
 from prompt_toolkit import PromptSession
 from prompt_toolkit.styles import Style
-from prompt_toolkit import prompt
 from pathlib import Path
 import threading
 import asyncio
@@ -18,23 +17,23 @@ COLOR_COMMAND_GREEN = "bg:#ansigreen #ffffff"
 STYLE = Style.from_dict({"prompt": COLOR_COMMAND_GREEN})
 
 HI_COMMANDS_RU = [
-    "🎩✨Абракадабра! Введите волшебную команду:✍️  ",
-    "👋Скажите мне, что вы хотите сделать:✍️  ",
+    "🎩✨ Абракадабра! Введите волшебную команду:✍️  ",
+    "👋 Скажите мне, что вы хотите сделать:✍️  ",
     "👋 Привет! Чем я могу помочь? Введите команду:✍️  "
-    "💫Жду вашу команду для начала работы:✍️  ",
-    "👋Добро пожаловать в удивительный мир возможностей! Ожидаю вашей команды для начала:✍️  ",
-    "🌈Добро пожаловать в мир возможностей! Ожидаю вашей волшебной команды:✍️  ",
+    "💫 Жду вашу команду для начала работы:✍️  ",
+    "👋 Добро пожаловать в удивительный мир возможностей! Ожидаю вашей команды для начала:✍️  ",
+    "🌈 Добро пожаловать в мир возможностей! Ожидаю вашей волшебной команды:✍️  ",
     "🌈 Доброго времени суток! Ожидаю вашей команды:✍️ ",
     "🌈 Привет! Какие чудеса сегодня?:✍️  ",
 ]
 
 HI_COMMANDS_EN = [
-    "🎩✨Abracadabra! Enter the magic command:✍️  ",
-    "👋Let me know what you want to do:✍️  ",
+    "🎩✨ Abracadabra! Enter the magic command:✍️  ",
+    "👋 Let me know what you want to do:✍️  ",
     "🎩✨ Tell me what you want to do: ",
-    "💫Waiting for your command to start work:✍️  ",
-    "👋Welcome to the amazing world of opportunities! Waiting for your command to start:✍️  ",
-    "🌈Welcome to the world of opportunities! Waiting for your magic command:✍️  ",
+    "💫 Waiting for your command to start work:✍️  ",
+    "👋 Welcome to the amazing world of opportunities! Waiting for your command to start:✍️  ",
+    "🌈 Welcome to the world of opportunities! Waiting for your magic command:✍️  ",
     "🎩✨ Welcome to the magical world of possibilities! Enter the magic command:✍️ ",
     "👋 Hello! How can I help? Enter a command:✍️  ",
     "🌈 Good day! Waiting for your command:✍️  ",
@@ -43,11 +42,11 @@ HI_COMMANDS_EN = [
 ]
 
 HI_COMMANDS_UA = [
-    "🎩✨Абракадабра! Введіть магічну команду:✍️  ",
-    "👋Будьте добрі скажіть, що я маю зробити:✍️  ",
-    "💫Чекаю на ваші накази:✍️  ",
-    "👋Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу команду для початку:✍️  ",
-    "🌈Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу чарівну команду:✍️  ",
+    "🎩✨ Абракадабра! Введіть магічну команду:✍️  ",
+    "👋 Будьте добрі скажіть, що я маю зробити:✍️  ",
+    "💫 Чекаю на ваші накази:✍️  ",
+    "👋 Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу команду для початку:✍️  ",
+    "🌈 Вітаю Вас в чарівному світі можливостей! Чекаю на Вашу чарівну команду:✍️  ",
     "🎩✨ Абракадабра! Введіть чарівну команду:✍️  ",
     "🎩✨ Скажіть мені, що ви хочете зробити:✍️  ",
     "👋 Привіт! Як я можу допомогти? Введіть команду:✍️  ",
@@ -164,6 +163,7 @@ def one_command_vizualization(user_input, lists: tuple):
         for com_list, ex_com in zip(lists[0], lists[1]):  
             if com_list.__contains__(user_input):
                 return f"{com_list} {ex_com}"
+    return ""
 
 def available_commands(command = None):
 
@@ -413,7 +413,7 @@ def wait_for_input(timeout=60, timeout2=1000):
     try:
         loop.run_until_complete(asyncio.wait_for(wait_input(), timeout=timeout))
     except asyncio.TimeoutError:
-        print(f"{bcolors.ORANGE}\n:⏰: You are here, I'm waiting for your command{bcolors.RESET}")
+        print(f"{bcolors.ORANGE}\n⏰: You are here, I'm waiting for your command{bcolors.RESET}")
     
     return result
 
@@ -584,24 +584,24 @@ def main():
                 case _:
                     if language == "en":
                         error_messages = [
-                            "😔Oh! You seem to have introduced the wrong command. Please try again!",
-                            "😔Oops! This is not like the right command. Let's try again",
-                            "😟Error: The command is not recognized. Try again.",
-                            "😮 Hmm, I don't understand this command. Let's try something else."
+                            f"{bcolors.WARNING}😔 Oh! You seem to have introduced the wrong command. Please try again!😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😔 Oops! This is not like the right command. Let's try again😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😟 Error: The command is not recognized. Try again.😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😮 Hmm, I don't understand this command. Let's try something else.😔{bcolors.RESET}"
                         ]
                     elif language == "ru":
                         error_messages = [
-                            "🙃Ой! Похоже, вы ввели неправильную команду. Пожалуйста, попробуйте снова!",
-                            "😟Упс! Это не похоже на правильную команду. Давайте попробуем еще раз",
-                            "😯Ошибка: Команда не распознана. Попробуйте еще раз.",
-                            "😮 Хмм, я не понимаю эту команду. Давайте попробуем что-то еще.,"
+                            f"{bcolors.WARNING}🙃 Ой! Похоже, вы ввели неправильную команду. Пожалуйста, попробуйте снова!😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😟 Упс! Это не похоже на правильную команду. Давайте попробуем еще раз😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😯 Ошибка: Команда не распознана. Попробуйте еще раз.{bcolors.RESET}",
+                            f"{bcolors.WARNING}😮 Хмм, я не понимаю эту команду. Давайте попробуем что-то еще.😔{bcolors.RESET}"
                         ]
                     elif language == "ua":
                         error_messages = [
-                            "😔Ой! Начебто Ви ввели хибну команду. Будь ласка спробуйте ыще раз!",
-                            "😯Упс! Це не схоже правельну команду. Давайте спробуэмо ыще раз!",
-                            "😔Помилка: Незрозумыла команда. Спробуйте іще раз.",
-                            "😔😮 Хмм, я не розумію цю команду. давайте спробуємо щось інше!"
+                            f"{bcolors.WARNING}😔 Ой! Начебто Ви ввели хибну команду. Будь ласка спробуйте ыще раз!😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😯 Упс! Це не схоже правельну команду. Давайте спробуэмо ыще раз!😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😔 Помилка: Незрозумыла команда. Спробуйте іще раз.😔{bcolors.RESET}",
+                            f"{bcolors.WARNING}😔😮 Хмм, я не розумію цю команду. давайте спробуємо щось інше!😔{bcolors.RESET}"
                         ]
                     
                     print(random.choice(error_messages))
@@ -629,7 +629,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        main()
     except KeyboardInterrupt:
         print(f"{bcolors.BLUE}The script is interrupted by the user!{bcolors.RESET}")
 
