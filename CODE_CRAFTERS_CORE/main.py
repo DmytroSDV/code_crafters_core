@@ -58,6 +58,7 @@ HI_COMMANDS_UA = [
 COMMAND_EXPLAIN_RU = WordCompleter(
     [
         "команды",
+        "изменить язык",
         "добавление контакта",  # добавление контакта
         "поиск контакта",  # поиск контакта
         "показать все контакты",  # показать все контакты
@@ -89,6 +90,7 @@ COMMAND_EXPLAIN_RU = WordCompleter(
 COMMAND_EXPLAIN_EN = WordCompleter(
     [
         "cli",
+        "change-language",
         "contact-add",
         "contact-find",
         "contact-show-all",
@@ -122,6 +124,7 @@ COMMAND_EXPLAIN_EN = WordCompleter(
 COMMAND_EXPLAIN_UA = WordCompleter(
     [
         "можливості",
+        "зміти мову",
         "додати контакт",
         "пошук контакта",
         "показати всі контакти",
@@ -170,6 +173,7 @@ def available_commands(command = None):
     if language == 'en':
         command_list = [
             bcolors.ORANGE + "cli" + bcolors.RESET,
+            bcolors.ORANGE + "change-language" + bcolors.RESET,
             bcolors.ORANGE + "contact-add" + bcolors.RESET,
             bcolors.ORANGE + "contact-find" + bcolors.RESET,
             bcolors.ORANGE + "contact-show-all" + bcolors.RESET,
@@ -201,6 +205,7 @@ def available_commands(command = None):
 
         command_explain = [
             bcolors.BLUE + "виводить список всіх доступних команд" + bcolors.RESET,
+            bcolors.BLUE + "змінити мову додатка" + bcolors.RESET,
             bcolors.BLUE + "зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів" + bcolors.RESET,
             bcolors.BLUE + "здійснює пошук контакту серед контактів книги" + bcolors.RESET,
             bcolors.BLUE + "показує всі існуючі контакти в книзі контактів" + bcolors.RESET,
@@ -233,6 +238,7 @@ def available_commands(command = None):
     elif language == 'ru':
         command_list = [
             bcolors.ORANGE + "команды" + bcolors.RESET,
+            bcolors.ORANGE + "изменить язык" + bcolors.RESET,
             bcolors.ORANGE + "добавление контакта" + bcolors.RESET,
             bcolors.ORANGE + "поиск контакта" + bcolors.RESET,
             bcolors.ORANGE + "показать все контакты" + bcolors.RESET,
@@ -262,6 +268,7 @@ def available_commands(command = None):
 
         command_explain = [
             bcolors.BLUE + "выводит все доступные команды" + bcolors.RESET,
+            bcolors.BLUE + "изменение языка приложения" + bcolors.RESET,
             bcolors.BLUE + "сохраняет контакт с именем, адресом, номером телефона, электронной почтой и днем рождения в контактную книгу" + bcolors.RESET,
             bcolors.BLUE + "ищет контакт между контактами книги" + bcolors.RESET,
             bcolors.BLUE + "показывает все существующие контакты в контактной книге" + bcolors.RESET,
@@ -292,6 +299,7 @@ def available_commands(command = None):
     elif language == 'ua':
         command_list = [
             bcolors.ORANGE + "можливості" + bcolors.RESET,
+            bcolors.ORANGE + "зміти мову" + bcolors.RESET,
             bcolors.ORANGE + "додати контакт" + bcolors.RESET,
             bcolors.ORANGE + "пошук контакта" + bcolors.RESET,
             bcolors.ORANGE + "показати всі контакти" + bcolors.RESET,
@@ -320,31 +328,32 @@ def available_commands(command = None):
         ]
 
         command_explain = [
-            bcolors.BLUE + "выводит все доступные команды" + bcolors.RESET,
-            bcolors.BLUE + "сохраняет контакт с именем, адресом, номером телефона, электронной почтой и днем рождения в контактную книгу" + bcolors.RESET,
-            bcolors.BLUE + "ищет контакт между контактами книги" + bcolors.RESET,
-            bcolors.BLUE + "показывает все существующие контакты в контактной книге" + bcolors.RESET,
-            bcolors.BLUE + "добавить еще 1-ин телефон к существующему контакту" + bcolors.RESET,
-            bcolors.BLUE + "удаление существующего телефона" + bcolors.RESET,
-            bcolors.BLUE + "добавить еще 1-ин email к существующему контакту" + bcolors.RESET,
-            bcolors.BLUE + "удалять существующее письмо" + bcolors.RESET,
-            bcolors.BLUE + "редактировать телефон действующего контактного лица" + bcolors.RESET,
-            bcolors.BLUE + "редактирование электронной почты существующего контакта" + bcolors.RESET,
-            bcolors.BLUE + "редактирование дня рождения существующего контакта" + bcolors.RESET,
-            bcolors.BLUE + "удалять существующий контакт" + bcolors.RESET,
-            bcolors.BLUE + "отображает список контактов, имеющих день рождения после указанного числа дней с текущей даты" + bcolors.RESET,
-            bcolors.BLUE + "сохраняет примечание по имени автора" + bcolors.RESET,
-            bcolors.BLUE + "поиск примечаний среди существующих примечаний" + bcolors.RESET,
-            bcolors.BLUE + "показывает все существующие примечания" + bcolors.RESET,
-            bcolors.BLUE + "редактирование существующей записки" + bcolors.RESET,
-            bcolors.BLUE + "удаление существующего примечания" + bcolors.RESET,
-            bcolors.BLUE + "добавление тегов в существующее примечание" + bcolors.RESET,
-            bcolors.BLUE + "редактирование тегов для существующей заметки" + bcolors.RESET,
-            bcolors.BLUE + "удаление тегов из существующей записи" + bcolors.RESET,
-            bcolors.BLUE + "поиск и сортировка заметок по тегам" + bcolors.RESET,
-            bcolors.BLUE + "Сортировать файлы в указанной папке по категориям (изображения, документы, видео и т.д.)." + bcolors.RESET,
-            bcolors.BLUE + "добавление дополнительного расширения для сортировки" + bcolors.RESET,
-            bcolors.BLUE + "удаление расширения из списка для сортировки" + bcolors.RESET,
+            bcolors.BLUE + "виводить список всіх доступних команд" + bcolors.RESET,
+            bcolors.BLUE + "змінити мову додатка" + bcolors.RESET,
+            bcolors.BLUE + "зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів" + bcolors.RESET,
+            bcolors.BLUE + "здійснює пошук контакту серед контактів книги" + bcolors.RESET,
+            bcolors.BLUE + "показує всі існуючі контакти в книзі контактів" + bcolors.RESET,
+            bcolors.BLUE + "додати іще 1-ин phone до існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "видалення існуючого phone" + bcolors.RESET,
+            bcolors.BLUE + "додати іще 1-ин email до існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "видалення існуючого email" + bcolors.RESET,
+            bcolors.BLUE + "редагування phone існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "редагування email існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "редагування birthday існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "видалення існуючого контакту" + bcolors.RESET,
+            bcolors.BLUE + "виводить список контактів, у яких день народження через задану кількість днів від поточної дати" + bcolors.RESET,
+            bcolors.BLUE + "зберігає нотатку за іменем автора" + bcolors.RESET,
+            bcolors.BLUE + "здійснює пошук нотатки серед існуючих нотатків" + bcolors.RESET,
+            bcolors.BLUE + "показує всі існуючі нотатки" + bcolors.RESET,
+            bcolors.BLUE + "редагування існуючої нотатки" + bcolors.RESET,
+            bcolors.BLUE + "видалення існуючої нотатки" + bcolors.RESET,
+            bcolors.BLUE + "додавання тегів до існуючої нотатки" + bcolors.RESET,
+            bcolors.BLUE + "редагування тегів існуючої нотатки" + bcolors.RESET,
+            bcolors.BLUE + "видалення тегів з існуючої нотатки" + bcolors.RESET,
+            bcolors.BLUE + "пошук та сортування нотаток за тегами" + bcolors.RESET,
+            bcolors.BLUE + "сортування файлів у зазначеній папці за категоріями (зображення, документи, відео та ін.)." + bcolors.RESET,
+            bcolors.BLUE + "додавання додатково розширення для сортування" + bcolors.RESET,
+            bcolors.BLUE + "видалення розширення із списку для сортування" + bcolors.RESET,
             bcolors.BLUE + "бот іде відпочивати" + bcolors.RESET,
         ]
 
@@ -426,6 +435,7 @@ def main():
     global note
     global language
     exit_flag = False
+    language_flag = False
     file_name = "database.bin"
     note_name = "notebase.bin"
     file_database = Path(file_name)
@@ -463,19 +473,26 @@ def main():
     print(f"{bcolors.PINK}👋 Hello! My name is Bot Jul. How can I help you today?🤖 {bcolors.RESET}")
 
     try:
-        language = input(f"{bcolors.BOLD}🫠  Please choose a language (en/:ru:/ua): {bcolors.RESET}")
-        if not language in ("en", "ru", 'ua'):
-            while 1:
-                print(f"{bcolors.BOLD}🙃  Wrong language format entered!\nPlease enter en | ru or ua to choose language:{bcolors.RESET}")
-                language = input(f"{bcolors.BOLD}🫠  Please choose a language (en/ru/ua): {bcolors.RESET}")
-                if language in ("en", "ru", 'ua'):
-                    break
         while 1:
+            if not language_flag:
+                language = input(f"{bcolors.BOLD}🏳️  Please choose a language (en/:ru:/ua): {bcolors.RESET}")
+                language_flag = True
+                if not language in ("en", "ru", 'ua'):
+                    while 1:
+                        print(f"{bcolors.BOLD}🙃  Wrong language format entered!\nPlease enter en | ru or ua to choose language:{bcolors.RESET}")
+                        language = input(f"{bcolors.BOLD}🫠  Please choose a language (en/ru/ua): {bcolors.RESET}")
+                        if language in ("en", "ru", 'ua'):
+                            language_flag = True
+                            break
+                        
             user_input = wait_for_input()
             print(one_command_vizualization(user_input, available_commands(user_input)))
             match user_input:
                 case "cli" | "команды" | "можливості":
                     print(available_commands())
+                
+                case "change-language" | "изменить язык" | "зміти мову":
+                    language_flag = False
 
                 case "contact-add" | "добавление контакта" | "додати контакт":
                     # 'зберігає контакт з іменем, адресом, номером телефона, email та днем народження до книги контактів'
