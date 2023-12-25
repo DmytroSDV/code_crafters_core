@@ -176,8 +176,10 @@ class AddressBook(UserList):
             print(tabulate(table, headers=headers, tablefmt='pretty'))
     def remove_phone(self):
         name = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False
         for contacts in self.data:
             if str(contacts["name"]) == name:
+                error_flag = True
                 phone_numbers = ", ".join(
                     str(phone) for phone in contacts.get("phone", [])
                 )
@@ -196,8 +198,8 @@ class AddressBook(UserList):
                     print(f"{bcolors.GREEN}📞 The phone number '{name}' was successfully deleted!✅{bcolors.RESET}")
                 else:
                     print(f"{bcolors.FAIL}📞 Phone number '{phone_to_remove}' not found❌ {bcolors.RESET}")
-            else:
-                print(f"{bcolors.FAIL}👤 Contact '{name}' isn't here!❌ {bcolors.RESET}")
+        if not error_flag:
+            print(f"{bcolors.FAIL}👤 Contact '{name}' isn't here!❌ {bcolors.RESET}")
 
     def del_contact(self):
         name = input(f"{bcolors.BOLD }📝 Please enter name:✍️  {bcolors.RESET}")
@@ -214,18 +216,23 @@ class AddressBook(UserList):
 
     def add_email(self):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                error_flag = True
                 email = input(f"{bcolors.BOLD}📧 Please enter email:✍️  {bcolors.RESET}")
                 contact["email"].append(email)
                 print(f"{bcolors.GREEN}📧 Email '{email}' Successfully added!✅{bcolors.RESET}")
-            else:
-                print(f"{bcolors.FAIL}👤 Contact isn't here!😞{bcolors.RESET}")
+                
+        if not error_flag:
+            print(f"{bcolors.FAIL}👤 Contact isn't here!😞{bcolors.RESET}")
     
     def edit_email(self):
-        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                error_flag = True
                 email_list = ", ".join(
                     str(email) for email in contact.get("email", [])
                 )
@@ -250,12 +257,16 @@ class AddressBook(UserList):
                     print(f"{bcolors.GREEN}📧 Email edited '{edit_to_email}' successfully!✅{bcolors.RESET}")
                 else:
                     print(f"{bcolors.FAIL}❌ Error editing email '{edit_to_email}': email not found!❌{bcolors.RESET}")
+        if not error_flag:
+            print(f"{bcolors.FAIL}❌ Contact '{user_input}' isn't here!😞{bcolors.RESET}")
             
     
     def remove_email(self):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                error_flag = True
                 email_list = ", ".join(
                     str(email) for email in contact.get("email", [])
                 )
@@ -274,24 +285,27 @@ class AddressBook(UserList):
                     print(f"{bcolors.GREEN}📧 Email '{email_to_remove}' successfully delete!✅{bcolors.RESET}")
                 else:
                     print(f"{bcolors.FAIL}❌ Email '{email_to_remove}' not found.😞{bcolors.RESET}")
-            else:
-                print(f"{bcolors.FAIL}❌ Contact '{email_to_remove}' isn't here!😞{bcolors.RESET}")
+        if not error_flag:
+            print(f"{bcolors.FAIL}❌ Contact '{user_input}' isn't here!😞{bcolors.RESET}")
         
     def add_phone(self):
         user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False
         for contact in self.data:
             if str(contact["name"]) == user_input:
-                
+                error_flag = True
                 phone = input(f"{bcolors.BOLD}🔍 Please enter phone📞: {bcolors.RESET}")
                 contact["phone"].append(phone)
                 print(f"{bcolors.GREEN}📞 Phone number '{phone}' successfully added!✅{bcolors.RESET}")
-            else:
-                print(f"{bcolors.FAIL}❌ Contact '{contact['name']}' isn't here!😞{bcolors.RESET}")
+        if not error_flag:
+            print(f"{bcolors.FAIL}❌ Contact '{user_input}' isn't here!😞{bcolors.RESET}")
                 
     def edit_phone(self):
-        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")  
+        user_input = input(f"{bcolors.BOLD}🔍 Please enter name:✍️  {bcolors.RESET}")
+        error_flag = False 
         for contact in self.data:
             if str(contact["name"]) == user_input:
+                error_flag = True
                 phone_numbers = ", ".join(
                     str(phone) for phone in contact.get("phone", [])
                 )
@@ -308,17 +322,16 @@ class AddressBook(UserList):
                 
                 if phone_number_object_to_edit is not None:
                     print(f"{bcolors.WARNING}📞 Old phone number: '{phone_number_object_to_edit}'{bcolors.RESET}")
-                    print(f"{bcolors.GREEN}📞 Successfully changed to '{new_phone_number}'✅{bcolors.RESET}")
-                                 
+                    print(f"{bcolors.GREEN}📞 Successfully changed to '{new_phone_number}'✅{bcolors.RESET}")                                 
                     contact["phone"].remove(phone_number_object_to_edit)            
                     contact["phone"].append(new_phone_number)
-                    
                     print(f"{bcolors.GREEN}📞 Phone number '{new_phone_number}' edited successfully!✅{bcolors.RESET}")
                 else:
                     print(f"{bcolors.FAIL}📞 Error editing phone number '{new_phone_number}': Phone Number not found❌{bcolors.RESET}")
-            
                     
-
+        if not error_flag:
+            print(f"{bcolors.FAIL}❌ There are no contacts with such name '{user_input}'!{bcolors.RESET}")
+                                  
     def save_to_file(self, file_path: str, data):
         with open(file_path, "wb") as file:
             pickle.dump(data, file)
@@ -331,17 +344,28 @@ class AddressBook(UserList):
 
     def edit_birthday(self):  # редагування birthday існуючого контакту
         name = input(f'{bcolors.BOLD}🔍 Enter name of contact:✍️  {bcolors.RESET}')
+        error_flag = False
         for contact in self.data:
             if contact['name'].name == name and contact['birthday']:
                 new_birthday = input('Enter new birthday: ')
-                contact['birthday'] = Birthday(new_birthday)
-                print(f'{bcolors.GREEN}🎂 Birthday "{new_birthday}" was changed!✅{bcolors.RESET}')
-
+                try:
+                    contact['birthday'] = Birthday(new_birthday)
+                    print(f'{bcolors.GREEN}🎂 Birthday "{new_birthday}" was changed!✅{bcolors.RESET}')
+                except ValueError as ex:
+                    print(ex)
+                error_flag = True
+                
+        if not error_flag:
+            print(f"{bcolors.FAIL}❌ There are no contacts with such name '{name}'!{bcolors.RESET}")
+        
     def show_contacts_birthdays(self):
-        try:
-            days = int(input(f"{bcolors.BOLD}🤗 Enter days:✍️  {bcolors.RESET}"))
-        except Exception as e:
-            print(f"{bcolors.WARNING}Enter the number of days by number and not string!{bcolors.RESET}")
+        while 1:
+            try:
+                days = int(input(f"{bcolors.BOLD}🤗 Enter days:✍️  {bcolors.RESET}"))
+                break
+            except Exception as e:
+                print(f"{bcolors.WARNING}Enter the number of days by number and not string!{bcolors.RESET}")
+                continue
             
         contacts = []
 
