@@ -3,6 +3,12 @@
 
 Hi this is command bot Jul developed by `Code Crafters` team. 
 - User can choose language for visualization and understanding commands en | ru | ua.
+- Hi this is command bot Jul developed by `Code Crafters` team. 
+- User can choose language for visualization and understanding commands en | ru | ua.
+- AvadaKedavra command executing if user does not use Jul for a long time.
+- User friendly interface.
+- Added a possibility of extending or removing extensions for file sorting commands.
+- Command of finding and soring tags modificated.
 
 
 All available commands that bot can do are:
